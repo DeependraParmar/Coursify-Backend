@@ -1,5 +1,5 @@
 import express from "express";
-import {changePassword, googleAuthCallbackController, googleAuthController, googleAuthErrorController, googleAuthSuccessController, login, logout, myProfile, register, updateProfile, updateProfilePicture } from "../controllers/userControllers.js";
+import {changePassword, forgetPassword, googleAuthCallbackController, googleAuthController, googleAuthErrorController, googleAuthSuccessController, login, logout, myProfile, register, resetPassword, updateProfile, updateProfilePicture } from "../controllers/userControllers.js";
 import { isAuthenticated } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -30,6 +30,9 @@ router.get("/profile", isAuthenticated, myProfile);
 router.post("/updateprofile", isAuthenticated, updateProfile);
 router.put("/updateprofilepicture", isAuthenticated,singleUpload, updateProfilePicture);
 router.route("/changepassword").put(isAuthenticated, changePassword);
+router.route("/forgotpassword").post(forgetPassword);
+router.route("/resetpassword/:token").put(resetPassword);
+
 
 // route for logging the user out 
 router.get("/logout", logout);

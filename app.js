@@ -6,7 +6,6 @@ import passport from "passport";
 import { GoogleStrategyProvider } from "./utils/GoogleStrategyProvider.js";
 import ErrorMiddleware from "./middlewares/ErrorMiddleware.js";
 import cors from "cors";
-import bodyParser from "body-parser";
 
 // creating the express application here 
 const app = express();

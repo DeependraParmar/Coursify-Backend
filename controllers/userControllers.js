@@ -5,6 +5,8 @@ import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
+import crypto from "crypto";
+import { sendEmail } from "../utils/sendMail.js";
 
 // controller to register a user 
 export const register = catchAsyncError( async(req,res,next) => {
@@ -155,6 +157,66 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         message: "Password Updated Successfully",
+    })
+});
+
+// controller for forgot password
+// controller for forget password 
+export const forgetPassword = catchAsyncError( async(req,res,next) => {
+    const {email} = req.body;
+    if(!email){
+        return next(new ErrorHandler("Email is Required",400));
+    }
+    
+    const user = await User.findOne({email});
+
+    if(!user){
+        return next(new ErrorHandler("User not found with this email",404));
+    }
+
+    const resetToken = await user.getResetToken();
+
+    await user.save();
+
+    const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+    const message = `Click on the link to reset your password: ${url}. If your have not requested then, please ignore.`
+
+    // send token via email 
+    await sendEmail(user.email,"Coursify: Forgot Password!! No Worries. Reset it",message);
+
+    res.status(200).json({
+        success: true,
+        message: `Reset link has been sent to ${user.email}`
+    })
+});
+
+// resetting the user password from tokenisation 
+// controller for reset password 
+export const resetPassword = catchAsyncError( async(req,res,next) => {
+    const {token} = req.params;
+
+    const resetPasswordToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: {
+            $gt: Date.now(),
+        }
+    });
+
+    if(!user){
+        return next(new ErrorHandler("Token is invalid or been expired",401));
+    }
+
+    user.password = req.body.password;
+    user.resetPasswordExpire = undefined;
+    user.resetPasswordToken = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Password Reset Successful",
     })
 });
 
