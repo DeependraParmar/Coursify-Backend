@@ -30,6 +30,11 @@ const schema = new mongoose.Schema({
         },
         default: "user"
     },
+    isVerifiedInstructor: {
+        type: Boolean,
+        default: false,
+    }
+    ,
     googleID: {
         type: String,
         unique: true,
@@ -67,6 +72,19 @@ const schema = new mongoose.Schema({
             github: String,
             linkedin: String,
             website: String,
+        }
+    ],
+    notification: [
+        {
+            title: {
+                type: String,
+            },
+            description: {
+                type: String
+            },
+            generatedOn: {
+                type: Date
+            }
         }
     ],
     createdAt: {

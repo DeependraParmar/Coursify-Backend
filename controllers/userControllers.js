@@ -7,6 +7,7 @@ import getDataUri from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
 import crypto from "crypto";
 import { sendEmail } from "../utils/sendMail.js";
+import { Review } from "../models/Review.js";
 
 // controller to register a user 
 export const register = catchAsyncError( async(req,res,next) => {
@@ -220,6 +221,52 @@ export const resetPassword = catchAsyncError( async(req,res,next) => {
     })
 });
 
+export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.user._id);
+    const { phoneNumber, educationalBackground, workExperience, skills } = req.body;
+    const file = req.file;
+
+    if (!phoneNumber || !educationalBackground || !workExperience || !skills || !file) {
+        return next(new ErrorHandler("All fields are required", 400));
+    }
+
+    try {
+        const fileUri = getDataUri(file);
+        const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
+        const review = await Review.create({
+            name: user.name,
+            email: user.email,
+            phoneNumber,
+            resume: {
+                public_id: cloud.public_id,
+                url: cloud.secure_url
+            },
+            educationalBackground,
+            workExperience,
+            skills
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Your Request is successfully submitted for Review. You will be notified within 5-14 working days.",
+        });
+    } catch (error) {
+        // Handle any errors that might occur during the process
+        return next(new ErrorHandler("Error submitting review request", 500));
+    }
+});
+
+
+// adding a new course in the playlist 
+const addToPlaylist = catchAsyncError(async(req,res,next) => {
+
+});
+
+// remove a course from playlist 
+const removeFromPlaylist = catchAsyncError(async(req,res,next) => {
+
+});
 
 // logging the user out
 export const logout = catchAsyncError((req, res, next) => {
