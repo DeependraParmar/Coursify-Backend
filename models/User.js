@@ -77,16 +77,28 @@ const schema = new mongoose.Schema({
             website: String,
         }
     ],
-    notification: [
+    notifications: [
         {
+            emoji: {
+                type: String,
+                default: "😍"
+            },
             title: {
                 type: String,
+                default: "Welcome to Coursify🌟✨🔥"
             },
             description: {
-                type: String
+                type: String,
+                default: "Learn from the masters and upskill yourself"
+            },
+            madeFor: {
+                type: String,
+                enum: ["user","instructor"],
+                default: "user",
             },
             generatedOn: {
-                type: Date
+                type: Date,
+                default: Date.now
             }
         }
     ],

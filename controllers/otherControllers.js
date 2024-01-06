@@ -15,17 +15,3 @@ export const changeRole = catchAsyncError(async(req,res,next) => {
 
     await user.save();
 });
-
-
-export const getReviewRequests = catchAsyncError( async(req,res,next) => {
-    const requests = await Review.find({});
-
-    if(!requests){
-        return next(new ErrorHandler("No Review Requests found", 404));
-    }
-
-    res.status(200).json({
-        success: true,
-        requests
-    })
-})
