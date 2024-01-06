@@ -234,7 +234,7 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
         const fileUri = getDataUri(file);
         const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
-        const review = await Review.create({
+        await Review.create({
             name: user.name,
             email: user.email,
             phoneNumber,
@@ -256,6 +256,9 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Error submitting review request", 500));
     }
 });
+
+// admin routes
+
 
 
 // adding a new course in the playlist 

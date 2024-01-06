@@ -13,3 +13,25 @@ export const isAuthenticated = async(req, res, next) => {
     req.user = await User.findById(decodedData._id);
     next();
 }
+
+export const isVerifiedInstructor = async(req,res,next) => {
+    const user = await User.findById(req.body._id);
+    const verifiedInstructor = user.isVerifiedInstructor;
+
+    if(!verifiedInstructor){
+        return next(new ErrorHandler("Unauthorised Access: Instructor Priviledes not available",400));
+    }
+
+    next();
+}
+
+export const isVerifiedAdmin = async(req,res,next) => {
+    const user = await User.findById(req.user._id);
+    const verifiedAdmin = user.isVerifiedAdmin;
+
+    if(!verifiedAdmin){
+        return next(new ErrorHandler("Unauthorised Access: Admin privileges not available", 400))
+    }
+
+    next();
+}

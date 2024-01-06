@@ -33,8 +33,11 @@ const schema = new mongoose.Schema({
     isVerifiedInstructor: {
         type: Boolean,
         default: false,
-    }
-    ,
+    },
+    isVerifiedAdmin:{
+        type: Boolean,
+        default: false,
+    },
     googleID: {
         type: String,
         unique: true,

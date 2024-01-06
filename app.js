@@ -39,7 +39,7 @@ GoogleStrategyProvider();
 // importing the routers here 
 import userRouter from "./routes/userRoutes.js";
 import courseRouter from "./routes/courseRoutes.js";
-import otherRouter from "./routes/userRoutes.js";
+import otherRouter from "./routes/otherRoutes.js";
 
 app.use("/api/v1",userRouter);
 app.use("/api/v1",courseRouter);
