@@ -34,3 +34,8 @@ export const isVerifiedAdmin = async(req,res,next) => {
 
     next();
 }
+
+
+export const isVerifiedCourseUser = async(req,res,next) => {
+    next();
+}

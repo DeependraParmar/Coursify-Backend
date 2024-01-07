@@ -64,7 +64,7 @@ const schema = new mongoose.Schema({
         required: [true,"Category is required"],
     },
     createdBy: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: [true,"Creator's Name is required"],
     },
     createdAt: {
