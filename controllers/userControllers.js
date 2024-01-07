@@ -26,7 +26,7 @@ export const register = catchAsyncError( async(req,res,next) => {
         name,email,password,
         avatar: {
             public_id: "default",
-            url: "https://res.cloudinary.com/dxkufsejm/image/upload/v1628058633/default.png"
+            url: "https://asset.cloudinary.com/dmmrtqe8q/bd8f69b303633e784950d90b22da09a6"
         }
     });
 
@@ -49,7 +49,6 @@ export const login = catchAsyncError(async(req,res,next)=> {
         return next(new ErrorHandler("User Doesn't Exist. Please Register First", 401));
     }
 
-    console.log(user);
     const isMatched = await user.comparePassword(password);
 
     if(!isMatched)
@@ -92,7 +91,7 @@ export const myProfile = catchAsyncError(async (req, res, next) => {
 
 // updating the profile details of the user: name,email and about
 export const updateProfile = catchAsyncError( async(req,res,next) => {
-    const {name,email,about} = req.body;
+    const {name,email,about,phoneNumber} = req.body;
     const user = await User.findById(req.user._id);
 
     if(name){
@@ -103,6 +102,9 @@ export const updateProfile = catchAsyncError( async(req,res,next) => {
     }
     if(about){
         user.about = about;
+    }
+    if(phoneNumber){
+        user.phoneNumber = phoneNumber;
     }
 
     await user.save();
@@ -256,9 +258,6 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Error submitting review request", 500));
     }
 });
-
-// admin routes
-
 
 
 // adding a new course in the playlist 

@@ -34,7 +34,7 @@ app.use(cors({
 app.use(cookieParser());
 
 // using all the strategies here 
-GoogleStrategyProvider();
+// GoogleStrategyProvider();
 
 // importing the routers here 
 import userRouter from "./routes/userRoutes.js";

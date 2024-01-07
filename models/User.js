@@ -17,6 +17,11 @@ const schema = new mongoose.Schema({
         lowercase: true,
         validate: [validator.isEmail, "Please provide a valid email"]
     },
+    phoneNumber: {
+        type: Number,
+        minLength: [10, "Phone Number must be 10 digit long"],
+        maxLength: [10, "Phone Number must be 10 digit long"],
+    },
     password: {
         type: String,
         required: [true, "Password is required"],
@@ -40,7 +45,8 @@ const schema = new mongoose.Schema({
     },
     googleID: {
         type: String,
-        unique: true,
+        default: '',
+        sparse: true
     },
     avatar: {
         public_id: {

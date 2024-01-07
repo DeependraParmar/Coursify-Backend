@@ -1,12 +1,10 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
-import { Review } from "../models/Review.js";
 import User from "../models/User.js";
-import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const changeRole = catchAsyncError(async(req,res,next) => {
     const user = await User.findById(req.user._id);
 
-    if(user.role === "user" && user.isVerifiedInstructor == True){
+    if(user.role === "user" && user.isVerifiedInstructor == true){
         user.role = "instructor"
     }
     else{
@@ -14,4 +12,5 @@ export const changeRole = catchAsyncError(async(req,res,next) => {
     }
 
     await user.save();
+    res.redirect(`${process.env.FRONTEND_URL}/api/v1/instructor`)
 });

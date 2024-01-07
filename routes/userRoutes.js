@@ -32,6 +32,8 @@ router.put("/updateprofilepicture", isAuthenticated,singleUpload, updateProfileP
 router.route("/changepassword").put(isAuthenticated, changePassword);
 router.route("/forgotpassword").post(forgetPassword);
 router.route("/resetpassword/:token").put(resetPassword);
+
+
 // router.route("/addtoplaylist").post(isAuthenticated, );
 
 
