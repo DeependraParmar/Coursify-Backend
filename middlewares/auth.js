@@ -15,10 +15,9 @@ export const isAuthenticated = async(req, res, next) => {
 }
 
 export const isVerifiedInstructor = async(req,res,next) => {
-    const user = await User.findById(req.body._id);
-    const verifiedInstructor = user.isVerifiedInstructor && user.role == "instructor";
+    const user = await User.findById(req.user._id);
 
-    if(!verifiedInstructor){
+    if (!user.isVerifiedInstructor || !user.role == "instructor"){
         return next(new ErrorHandler("Unauthorised Access: Instructor Priviledes not available",400));
     }
 

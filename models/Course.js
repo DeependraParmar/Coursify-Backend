@@ -48,19 +48,9 @@ const schema = new mongoose.Schema({
             required: true,
         }
     },
-    notes: [
-        {
-            title: String,
-            public_id: {
-                type: String,
-                required: true
-            },
-            url: {
-                type: String,
-                required: true,
-            }
-        }
-    ],
+    notes: {
+        type: String,
+    },
     views: {
         type: Number,
         default: 0,
