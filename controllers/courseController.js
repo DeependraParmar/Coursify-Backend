@@ -75,16 +75,16 @@ export const addNewLecture = catchAsyncError(async(req,res,next) => {
     const course = await Course.findById(req.params.id);
     const {title, description, notes} = req.body;
     const file = req.file;
-    const fileUri = getDataUri(file);
-
+    
     if(!course){
         return next(new ErrorHandler("Course Not Found", 404));
     }
-
+    
     if(!title || !description || !notes || !file){
         return next(new ErrorHandler("All fields are required", 400));
     }
-
+    
+    const fileUri = getDataUri(file);
     const cloud = await cloudinary.v2.uploader.upload(fileUri.content, {
         resource_type: "video"
     });
@@ -105,4 +105,27 @@ export const addNewLecture = catchAsyncError(async(req,res,next) => {
     });
 })
 
-// controller for a
+// controller for deleting a course
+export const deleteACourse = catchAsyncError(async(req,res,next) => {
+    const course = await Course.findById(req.params.id);
+
+    if(!course){
+        return next(new ErrorHandler("Course Not Found", 404));
+    }
+
+    await cloudinary.v2.uploader.destroy(course.poster.public_id);
+    for(let i=0; i<course.lectures.length; i++){
+        let element = course.lectures[i];
+        await cloudinary.v2.uploader.destroy(element.video.public_id, {
+            resource_type: "video"
+        });
+    }
+
+    await course.deleteOne();
+
+    res.status(200).json({
+        success: true,
+        message: "Course deleted successfully"
+    })
+});
+

@@ -8,6 +8,7 @@ import cloudinary from "cloudinary";
 import crypto from "crypto";
 import { sendEmail } from "../utils/sendMail.js";
 import { Review } from "../models/Review.js";
+import { Course } from "../models/Course.js";
 
 // controller to register a user 
 export const register = catchAsyncError( async(req,res,next) => {
@@ -268,6 +269,24 @@ export const getMyCourses = catchAsyncError(async (req, res, next) => {
         success: true,
         myCourses: user.courses
     });
+});
+
+
+// get all the courses created by the user
+export const getCreatedCourses = catchAsyncError(async(req,res,next) => {
+    const user = await User.findById(req.user._id);
+    const userId = user._id;
+
+    const myCourses = await Course.find({createdBy: userId});
+    
+    if(!myCourses){
+        return next(new ErrorHandler("No Courses created yet", 400));
+    }
+
+    res.status(200).json({
+        success: true,
+        myCourses
+    })
 })
 
 // logging the user out

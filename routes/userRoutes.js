@@ -1,6 +1,6 @@
 import express from "express";
-import { changePassword, forgetPassword, getMyCourses, googleAuthCallbackController, googleAuthController, googleAuthErrorController, googleAuthSuccessController, login, logout, myProfile, register, registerAsInstructor, resetPassword, updateProfile, updateProfilePicture } from "../controllers/userControllers.js";
-import { isAuthenticated } from "../middlewares/auth.js";
+import { changePassword, forgetPassword, getCreatedCourses, getMyCourses, googleAuthCallbackController, googleAuthController, googleAuthErrorController, googleAuthSuccessController, login, logout, myProfile, register, registerAsInstructor, resetPassword, updateProfile, updateProfilePicture } from "../controllers/userControllers.js";
+import { isAuthenticated, isVerifiedInstructor } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
 const router = express.Router();
@@ -38,6 +38,8 @@ router.route("/profile/mycourses").get(isAuthenticated, getMyCourses);
 
 // routes for instructor
 router.post("/be-an-instructor",isAuthenticated,singleUpload,registerAsInstructor);
+router.get("/instructor/my-courses", isAuthenticated, isVerifiedInstructor, getCreatedCourses);
+
 
 
 // routes for admin
