@@ -67,4 +67,6 @@ export const getCourseLectures = catchAsyncError(async(req,res,next) => {
         success: true,
         lectures: course.lectures
     })
-})
+});
+
+

@@ -260,15 +260,15 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
 });
 
 
-// adding a new course in the playlist 
-const addToPlaylist = catchAsyncError(async(req,res,next) => {
+// get all the courses bought by the user 
+export const getMyCourses = catchAsyncError(async (req, res, next) => {
+    const user = await User.findById(req.user._id);
 
-});
-
-// remove a course from playlist 
-const removeFromPlaylist = catchAsyncError(async(req,res,next) => {
-
-});
+    res.status(200).json({
+        success: true,
+        myCourses: user.courses
+    });
+})
 
 // logging the user out
 export const logout = catchAsyncError((req, res, next) => {
