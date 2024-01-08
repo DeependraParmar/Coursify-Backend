@@ -36,7 +36,7 @@ export const isVerifiedAdmin = async(req,res,next) => {
     next();
 }
 
-
+// checking whether the user is having or purchased the course or not
 export const isVerifiedCourseUser = async(req,res,next) => {
     const user = await User.findById(req.user._id);
     const courseId = req.params.id;

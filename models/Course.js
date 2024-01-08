@@ -31,7 +31,10 @@ const schema = new mongoose.Schema({
                     type: String,
                     required: true,
                 }
-            }
+            },
+            notes: {
+                type: String,
+            },
         }
     ],
     price: {
@@ -47,9 +50,6 @@ const schema = new mongoose.Schema({
             type: String,
             required: true,
         }
-    },
-    notes: {
-        type: String,
     },
     views: {
         type: Number,
