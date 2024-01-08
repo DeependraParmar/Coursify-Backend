@@ -129,6 +129,7 @@ export const deleteACourse = catchAsyncError(async(req,res,next) => {
     })
 });
 
+
 // controller for deleting a lecture from the course 
 export const deleteLecture = catchAsyncError(async(req,res,next) => {
     const {courseID, lectureID} = req.query;
@@ -158,5 +159,5 @@ export const deleteLecture = catchAsyncError(async(req,res,next) => {
     res.status(200).json({
         success: true,
         message: "Lecture deleted successfullly"
-    })
+    });
 });
