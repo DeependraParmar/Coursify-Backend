@@ -129,3 +129,34 @@ export const deleteACourse = catchAsyncError(async(req,res,next) => {
     })
 });
 
+// controller for deleting a lecture from the course 
+export const deleteLecture = catchAsyncError(async(req,res,next) => {
+    const {courseID, lectureID} = req.query;
+    const course = await Course.findById(courseID);
+
+    if(!course){
+        return next(new ErrorHandler("Course Not Found",404));
+    }
+    
+    // getting the lecture to delete
+    const lecture = await course.lectures.find((item) => {
+        if(item._id.toString() === lectureID.toString()) return item;
+    });
+
+    await cloudinary.v2.uploader.destroy(lecture.video.public_id,{
+        resource_type: "video"
+    });
+
+    // updating the lectures with all the lectures expect lecture to delete 
+    course.lectures = course.lectures.filter((item) => {
+        if(item._id.toString() !== lectureID.toString()) return item;
+    });
+
+    course.numOfVideos = course.lectures.length;
+    await course.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Lecture deleted successfullly"
+    })
+});
