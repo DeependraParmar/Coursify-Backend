@@ -1,6 +1,7 @@
 import ErrorHandler from "../utils/ErrorHandler.js";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { Course } from "../models/Course.js";
 
 export const isAuthenticated = async(req, res, next) => {
     const token = req.cookies["connect.sid"];
@@ -37,5 +38,19 @@ export const isVerifiedAdmin = async(req,res,next) => {
 
 
 export const isVerifiedCourseUser = async(req,res,next) => {
+    const user = await User.findById(req.user._id);
+    const courseId = req.params.id;
+
+    let isFound = false;
+    for(let i=0; i<user.courses.length; i++){
+        if(courseId == user.courses[i].course){
+            isFound = true;
+            break;
+        }
+    }
+
+    if(isFound == false){
+        return next(new ErrorHandler("Unauthorised Access: Purchase the course to watch", 400));
+    }
     next();
 }
