@@ -1,6 +1,7 @@
 import app from "./app.js";
 import {connectDatabase} from "./config/database.js";
 import cloudinary from "cloudinary";
+import Razorpay from "razorpay";
 
 // connecting to the database 
 connectDatabase();
@@ -10,6 +11,11 @@ cloudinary.v2.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+export const instance = new Razorpay({
+    key_id: process.env.RAZORPAY_API_KEY,
+    key_secret: process.env.RAZORPAY_API_SECRET,
+})
 
 app.get("/", (req,res) => {
     res.send("<h1>Coursify</h1><br> <a href='/api/v1/auth/google'>Login with Google</a> <br><a href='/api/v1/auth/linkedin'>Login with LinkedIn</a> <br> <a href='/api/v1/auth/facebook'>Login with Facebook</a> <br> <a href='/api/v1/auth/github'>Login with Github</a>");

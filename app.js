@@ -29,23 +29,33 @@ app.use(passport.authenticate("session"));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors({
-    origin: "https://coursify-frontend.vercel.app/"
+    origin: "http://localhost:5173/"
 }));
 app.use(cookieParser());
 
 // using all the strategies here 
-// GoogleStrategyProvider();
+GoogleStrategyProvider();
+
+
 
 // importing the routers here 
 import userRouter from "./routes/userRoutes.js";
 import courseRouter from "./routes/courseRoutes.js";
 import otherRouter from "./routes/otherRoutes.js";
 import reviewRouter from "./routes/reviewRoutes.js"
+import paymentRouter from "./routes/paymentRoutes.js"
 
 app.use("/api/v1",userRouter);
 app.use("/api/v1",courseRouter);
 app.use("/api/v1", otherRouter);
 app.use("/api/v1", reviewRouter);
+app.use("/api/v1", paymentRouter);
+
+app.get("/api/v1/getkey", (req,res) => {
+    res.status(200).json({
+        key: process.env.RAZORPAY_API_KEY
+    })
+})
 
 export default app;
 

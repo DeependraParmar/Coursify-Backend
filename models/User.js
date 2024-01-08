@@ -62,7 +62,7 @@ const schema = new mongoose.Schema({
         {
             course: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Course"
+                ref: 'Course'
             },
             thumbnail: {
                 type: String,
