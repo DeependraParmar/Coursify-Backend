@@ -139,5 +139,19 @@ export const getAdminDashboardData = catchAsyncError( async(req,res,next) => {
         success: true,
         users,
         instructors,
+    });
+});
+
+export const getTotalAdminStatEarning = catchAsyncError( async(req,res,next) => {
+    const courses = await Course.find({});
+    let totalEarning = 0;
+
+    for(let i=0; i<courses.length; i++){
+        totalEarning += (courses[i].totalPurchases * courses[i].price);
+    }
+
+    res.status(200).json({
+        success: true,
+        totalEarning,
     })
 })
