@@ -1,5 +1,6 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import { Course } from "../models/Course.js";
+import { InstructorStats } from "../models/InstructorStats.js";
 import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
@@ -161,3 +162,22 @@ export const deleteLecture = catchAsyncError(async(req,res,next) => {
         message: "Lecture deleted successfullly"
     });
 });
+
+
+// controller for watching thè course and getting the total views in the statsData 
+Course.watch().on("change", async () => {
+    const stats = await InstructorStats.find({ instructorId: req.user._id }).sort({ createdAt: "desc" }).limit(1);
+
+    const courses = await Course.find({createdBy: req.user._id});
+    let totalViews = 0;
+
+    for (let i = 0; i < courses.length; i++) {
+        totalViews = totalViews + courses[i].views;
+    }
+
+    stats[0].metrics.views = totalViews;
+
+    await stats[0].save();
+})
+
+

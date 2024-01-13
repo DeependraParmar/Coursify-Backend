@@ -36,8 +36,6 @@ app.use(cookieParser());
 // using all the strategies here 
 GoogleStrategyProvider();
 
-
-
 // importing the routers here 
 import userRouter from "./routes/userRoutes.js";
 import courseRouter from "./routes/courseRoutes.js";

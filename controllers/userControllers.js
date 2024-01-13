@@ -9,6 +9,7 @@ import crypto from "crypto";
 import { sendEmail } from "../utils/sendMail.js";
 import { Review } from "../models/Review.js";
 import { Course } from "../models/Course.js";
+import { InstructorStats } from "../models/InstructorStats.js";
 
 // controller to register a user 
 export const register = catchAsyncError( async(req,res,next) => {
@@ -301,4 +302,19 @@ export const logout = catchAsyncError((req, res, next) => {
             message: "Logged out successfully",
         })
     })
+});
+
+// controller for getting the instructor stats
+User.watch().on("change", async () => {
+    const stats = await InstructorStats.find({ instructorId: req.user._id }).sort({ createdAt: "desc" }).limit(1);
+
+    const statsData = stats[0].metrics;
+
+    const courses = await Course.find({ createdBy: req.user._id });
+    statsData.totalCourses = await Course.countDocuments({createdBy: req.user._id});
+    statsData.totalStudentsEnrolled = await Course.find({ createdBy: req.user._id }).countDocuments();
+    statsData.totalEarnings = courses.reduce((total, course) => total + (course.totalPurchases * course.price), 0);
+    statsData.createdAt = new Date(Date.now());
+ 
+    await stats[0].save();
 });

@@ -67,7 +67,7 @@ const schema = new mongoose.Schema({
             thumbnail: {
                 type: String,
                 required: true
-            }
+            },
         }
     ],
     about: {

@@ -67,6 +67,10 @@ const schema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: [true,"Creator's Name is required"],
     },
+    totalPurchases: {
+        type: Number,
+        default: 0,
+    },
     createdAt: {
         type: Date,
         default: Date.now,
