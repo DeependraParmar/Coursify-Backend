@@ -1,4 +1,5 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
+import { Course } from "../models/Course.js";
 import { InstructorStats } from "../models/InstructorStats.js";
 import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
@@ -114,3 +115,18 @@ export const getInstructorStats = catchAsyncError(async (req, res, next) => {
         earningPercent,
     });
 });
+
+
+// controller for getting the user and the instructor count 
+export const getAdminStatsCount = catchAsyncError( async(req,res,next) => {
+    const userCount = await User.countDocuments();
+    const instructorCount = await User.countDocuments({isVerifiedInstructor: true});
+    const coursesCount = await Course.countDocuments();
+
+    res.status(200).json({
+        success: true,
+        userCount,
+        instructorCount,
+        coursesCount,
+    })
+})

@@ -1,6 +1,6 @@
 import express from "express";
-import { isAuthenticated, isVerifiedInstructor } from "../middlewares/auth.js";
-import { changeRole, contact, getInstructorStats } from "../controllers/otherControllers.js";
+import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middlewares/auth.js";
+import { changeRole, contact, getAdminStatsCount, getInstructorStats } from "../controllers/otherControllers.js";
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ router.post("/contact", contact);
 
 // getting the instructor stats 
 router.get("/instructor/dashboard", isAuthenticated, isVerifiedInstructor, getInstructorStats);
+
+// getting the user and the instructor count on admin dashboard 
+router.get("/admin/count",isAuthenticated, isVerifiedAdmin, getAdminStatsCount);
 
 export default router;
