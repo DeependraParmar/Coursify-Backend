@@ -129,4 +129,15 @@ export const getAdminStatsCount = catchAsyncError( async(req,res,next) => {
         instructorCount,
         coursesCount,
     })
+});
+
+export const getAdminDashboardData = catchAsyncError( async(req,res,next) => {
+    const users = await User.find({isVerifiedInstructor: false, isVerifiedAdmin: false});
+    const instructors = await User.find({isVerifiedInstructor: true});
+
+    res.status(200).json({
+        success: true,
+        users,
+        instructors,
+    })
 })
