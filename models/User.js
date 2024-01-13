@@ -24,7 +24,6 @@ const schema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required"],
         minLength: [6, "Password must be at least 6 characters long"],
         select: false,
     },
@@ -125,7 +124,9 @@ schema.pre("save", async function (next) {
 
 schema.methods.getJWTToken = function () {
     return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: "15d"
+        expiresIn: "15d",
+    }, {
+        algorithm: 'HS256'
     });
 }
 

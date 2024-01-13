@@ -3,7 +3,6 @@ import express from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "passport";
-import { GoogleStrategyProvider } from "./utils/GoogleStrategyProvider.js";
 import ErrorMiddleware from "./middlewares/ErrorMiddleware.js";
 import cors from "cors";
 
@@ -21,7 +20,6 @@ app.use(session({
     saveUninitialized: false,
 }));
 
-
 // using the middlewares in order to help passport 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,8 +31,7 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-// using all the strategies here 
-GoogleStrategyProvider();
+
 
 // importing the routers here 
 import userRouter from "./routes/userRoutes.js";
