@@ -165,8 +165,18 @@ export const deleteLecture = catchAsyncError(async(req,res,next) => {
 
 
 // controller for watching thè course and getting the total views in the statsData 
-Course.watch().on("change", async () => {
-    const stats = await InstructorStats.find({ instructorId: req.user._id }).sort({ createdAt: "desc" }).limit(1);
+Course.watch().on("change", async (req,res,next) => {
+    const stats = [];
+    try{
+        const instructor = await User.findById(req.user._id);
+        if(!instructor){
+            return new ErrorHandler("Instructor Not Found", 404);
+        }
+        stats = await InstructorStats.find({ instructorId: instructor._id }).sort({ createdAt: "desc" }).limit(1);
+    }
+    catch(error){
+        return new ErrorHandler("Error getting stats", 404);
+    }
 
     const courses = await Course.find({createdBy: req.user._id});
     let totalViews = 0;

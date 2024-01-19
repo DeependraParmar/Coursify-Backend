@@ -42,11 +42,6 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    googleID: {
-        type: String,
-        default: '',
-        sparse: true
-    },
     avatar: {
         public_id: {
             type: String,

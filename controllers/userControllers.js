@@ -305,8 +305,18 @@ export const logout = catchAsyncError((req, res, next) => {
 });
 
 // controller for getting the instructor stats
-User.watch().on("change", async () => {
-    const stats = await InstructorStats.find({ instructorId: req.user._id }).sort({ createdAt: "desc" }).limit(1);
+User.watch().on("change", async (req,res,next) => {
+    const stats = [];
+    try{
+        const instructor = await User.findById(req.user._id);
+        if(!instructor){
+            return new ErrorHandler("Instructor not found", 404);
+        }
+        stats = await InstructorStats.find({ instructorId: instructor._id }).sort({ createdAt: "desc" }).limit(1);
+    }
+    catch(error){
+        return new ErrorHandler("Error getting instructor stats", 500);
+    }
 
     const statsData = stats[0].metrics;
 

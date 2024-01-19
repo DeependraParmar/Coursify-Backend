@@ -41,11 +41,6 @@ router.post("/be-an-instructor",isAuthenticated,singleUpload,registerAsInstructo
 router.get("/instructor/my-courses", isAuthenticated, isVerifiedInstructor, getCreatedCourses);
 
 
-
-// routes for admin
-
-
-
 // route for logging the user out 
 router.get("/logout", logout);
 
