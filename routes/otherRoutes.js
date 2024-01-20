@@ -1,6 +1,6 @@
 import express from "express";
 import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middlewares/auth.js";
-import { changeRole, contact, getAdminDashboardData, getAdminStatsCount, getInstructorStats, getTotalAdminStatEarning } from "../controllers/otherControllers.js";
+import { changeRole, contact, getAdminDashboardData, getAdminStatsCount, getInstructorStats, getPublicProfile, getTotalAdminStatEarning } from "../controllers/otherControllers.js";
 
 const router = express.Router();
 
@@ -9,6 +9,9 @@ router.get("/changeRole", isAuthenticated, changeRole);
 
 // sending the message of the user to my mail
 router.post("/contact", contact);
+
+// getting the public profile of the user
+router.get("/profile/public/:id", getPublicProfile);
 
 // getting the instructor stats 
 router.get("/instructor/dashboard", isAuthenticated, isVerifiedInstructor, getInstructorStats);

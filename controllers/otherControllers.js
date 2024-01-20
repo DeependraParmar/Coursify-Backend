@@ -39,6 +39,19 @@ export const contact = catchAsyncError( async(req,res,next) => {
     });
 });
 
+export const getPublicProfile = catchAsyncError( async(req,res,next) => {
+    const user = await User.findById(req.params.id);
+
+    if(!user){
+        return next(new ErrorHandler("Public Profile Not Found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        user,
+    });
+})
+
 
 // controller for getting the stats for the instructor 
 export const getInstructorStats = catchAsyncError(async (req, res, next) => {
