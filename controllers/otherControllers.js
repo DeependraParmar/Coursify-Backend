@@ -20,6 +20,7 @@ export const changeRole = catchAsyncError(async(req,res,next) => {
 });
 
 
+
 export const contact = catchAsyncError( async(req,res,next) => {
     const {name, email, message} = req.body;
 

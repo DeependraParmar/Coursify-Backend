@@ -1,6 +1,6 @@
 import express from "express";
-import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middlewares/auth.js";
 import { changeRole, contact, getAdminDashboardData, getAdminStatsCount, getInstructorStats, getPublicProfile, getTotalAdminStatEarning } from "../controllers/otherControllers.js";
+import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middlewares/auth.js";
 
 const router = express.Router();
 
