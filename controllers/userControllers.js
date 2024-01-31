@@ -91,6 +91,25 @@ export const myProfile = catchAsyncError(async (req, res, next) => {
     });
 });
 
+// getting the public profile of thè user 
+export const getPublicProfile = catchAsyncError( async(req,res,next) => {
+    const {id} = req.params;
+    const dbUser = await User.findById(id);
+
+    if(!dbUser){
+        return next(new ErrorHandler("User not found!", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        user: {
+            name: dbUser.name,
+            email: dbUser.email,
+            avatar: dbUser.avatar,
+        }
+    })
+})
+
 // updating the profile details of the user: name,email and about
 export const updateProfile = catchAsyncError( async(req,res,next) => {
     const {name,email,about,phoneNumber} = req.body;
@@ -169,6 +188,7 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
 // controller for forget password 
 export const forgetPassword = catchAsyncError( async(req,res,next) => {
     const {email} = req.body;
+
     if(!email){
         return next(new ErrorHandler("Email is Required",400));
     }
