@@ -163,6 +163,46 @@ export const deleteLecture = catchAsyncError(async(req,res,next) => {
     });
 });
 
+//controller for editing the information related to the course
+export const editCourseDetails = catchAsyncError( async(req,res,next) => {
+    const {id} = req.params.id;
+    const course = await Course.findById(id);
+
+    if(!course){
+        return next(new ErrorHandler("Course Not Found", 404));
+    }
+
+    const {title, description, category} = req.body;
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
+    await cloudinary.v2.uploader.destroy(course.poster.public_id);
+
+    if(title){
+        course.title = title;
+    }
+    if(description){
+        course.description = description;
+    }
+    if(category){
+        course.category = category;
+    }
+    if(file){
+        course.poster = {
+            public_id: cloud.public_id,
+            url: cloud.secure_url,
+        }
+    }
+
+    await course.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Course Details Updated Successfully"
+    })
+})
+
 
 // controller for watching thè course and getting the total views in the statsData 
 Course.watch().on("change", async (req,res,next) => {
