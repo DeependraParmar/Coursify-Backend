@@ -20,13 +20,13 @@ export const instance = new Razorpay({
 })
 
 app.get("/", (req,res) => {
-    res.send("<h1>Coursify</h1><br> <a href='/api/v1/auth/google'>Login with Google</a> <br><a href='/api/v1/auth/linkedin'>Login with LinkedIn</a> <br> <a href='/api/v1/auth/facebook'>Login with Facebook</a> <br> <a href='/api/v1/auth/github'>Login with Github</a>");
+    res.send("Server is working fine guys...");
 });
 
 
 nodeCron.schedule("0 0 0 1 * *", async() => {
     try{
-        await InstructorStats.create();
+        await InstructorStats.create({});
     }
     catch(error){
         console.log(error);

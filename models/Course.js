@@ -75,8 +75,6 @@ const schema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     }
-
-
 });
 
 export const Course = mongoose.model('Course', schema);

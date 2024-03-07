@@ -9,7 +9,19 @@ import cloudinary from "cloudinary"
 
 // controller for getting all the courses 
 export const getAllCourses = catchAsyncError(async(req,res,next) => {
-    const courses = await Course.find().select('-lectures');
+    const keyword = req.query.keyword || "";
+    const category = req.query.category || "";
+
+    const courses = await Course.find({
+        title: {
+            $regex: keyword,
+            $options: "i"
+        },
+        category: {
+            $regex: category,
+            $options: "i"
+        }
+    }).select('-lectures');
 
     if(!courses){
         return next(new ErrorHandler("Courses Not Found", 404))
