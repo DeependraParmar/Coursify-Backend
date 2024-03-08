@@ -27,7 +27,7 @@ app.use(passport.authenticate("session"));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors({
-    origin: "http://localhost:5173/"
+    origin: ["http://localhost:5173", "https://coursify-frontend.vercel.app"]
 }));
 app.use(cookieParser());
 
