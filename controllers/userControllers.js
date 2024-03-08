@@ -9,6 +9,7 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
+import { toUSVString } from "util";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
@@ -297,15 +298,14 @@ export const getCreatedCourses = catchAsyncError(async (req, res, next) => {
 
 // logging the user out
 export const logout = catchAsyncError((req, res, next) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return next(err);
-        }
-        res.clearCookie("connect.sid");
-        res.status(200).json({
-            success: true,
-            message: "Logged out successfully",
-        })
+    res.status(200).cookie("connect.sid", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+    }).json({
+        success: true,
+        message: "Logged Out Successfully"
     })
 });
 
