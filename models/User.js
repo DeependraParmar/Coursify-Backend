@@ -38,7 +38,7 @@ const schema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    isVerifiedAdmin:{
+    isVerifiedAdmin: {
         type: Boolean,
         default: false,
     },
@@ -68,15 +68,30 @@ const schema = new mongoose.Schema({
         type: String,
         maxlength: [500, "About cannot be more than 500 characters"]
     },
-    social_media_urls: [
-        {
-            facebook: String,
-            twitter: String,
-            github: String,
-            linkedin: String,
-            website: String,
-        }
-    ],
+    linkedin: {
+        type: String,
+        validate: [validator.isURL, "Please provide a valid URL"]
+    },
+    twitter: {
+        type: String,
+        validate: [validator.isURL, "Please provide a valid URL"]
+    },
+    facebook: {
+        type: String,
+        validate: [validator.isURL, "Please provide a valid URL"]
+    },
+    youtube: {
+        type: String,
+        validate: [validator.isURL, "Please provide a valid URL"]
+    },
+    github: {
+        type: String,
+        validate: [validator.isURL, "Please provide a valid URL"]
+    },
+    website: {
+        type: String,
+        validate: [validator.isURL, "Please provide a valid URL"]
+    },
     notifications: [
         {
             emoji: {
@@ -93,7 +108,7 @@ const schema = new mongoose.Schema({
             },
             madeFor: {
                 type: String,
-                enum: ["user","instructor"],
+                enum: ["user", "instructor"],
                 default: "user",
             },
             generatedOn: {

@@ -96,8 +96,10 @@ export const getPublicProfile = catchAsyncError(async (req, res, next) => {
 
 // updating the profile details of the user: name,email and about
 export const updateProfile = catchAsyncError(async (req, res, next) => {
-    const { name, email, about, phoneNumber } = req.body;
+    const { name, email, about, phoneNumber, linkedin, twitter, github, facebook, website, youtube } = req.body;
     const user = await User.findById(req.user._id);
+
+    console.log(req.body);
 
     if (name) {
         user.name = name;
@@ -110,6 +112,24 @@ export const updateProfile = catchAsyncError(async (req, res, next) => {
     }
     if (phoneNumber) {
         user.phoneNumber = phoneNumber;
+    }
+    if(linkedin){
+        user.linkedin = linkedin;
+    }
+    if(twitter){
+        user.twitter = twitter;
+    }
+    if(github){
+        user.github = github;
+    }
+    if(facebook){
+        user.facebook = facebook;
+    }
+    if(website){
+        user.website = website;
+    }
+    if(youtube){
+        user.youtube = youtube;
     }
 
     await user.save();
