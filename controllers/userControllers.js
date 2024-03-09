@@ -9,7 +9,6 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
-import { toUSVString } from "util";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
@@ -23,12 +22,11 @@ export const register = catchAsyncError(async (req, res, next) => {
     if (user)
         return next(new ErrorHandler("User Already Exists. Please go to Login", 409));
 
-
     user = await User.create({
         name, email, password,
         avatar: {
             public_id: "default",
-            url: "https://asset.cloudinary.com/dmmrtqe8q/bd8f69b303633e784950d90b22da09a6"
+            url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1704588526/8380015_bgnejr.jpg"
         }
     });
 
@@ -81,8 +79,8 @@ export const getPublicProfile = catchAsyncError(async (req, res, next) => {
 
     let createdCourses = [];
 
-    if(dbUser.isVerifiedInstructor){
-        createdCourses = await Course.find({createdBy: dbUser._id});
+    if (dbUser.isVerifiedInstructor) {
+        createdCourses = await Course.find({ createdBy: dbUser._id });
     }
 
     res.status(200).json({
