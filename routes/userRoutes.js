@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.get("/profile", isAuthenticated, myProfile);
-router.post("/updateprofile", isAuthenticated, updateProfile);
+router.put("/updateprofile", isAuthenticated, updateProfile);
 router.put("/updateprofilepicture", isAuthenticated, singleUpload, updateProfilePicture);
 router.route("/changepassword").put(isAuthenticated, changePassword);
 router.route("/forgotpassword").post(forgetPassword);
