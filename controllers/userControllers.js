@@ -179,6 +179,10 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
     if (!isMatched)
         return next(new ErrorHandler("Incorrect Old Password", 401));
 
+    if(oldPassword === newPassword){
+        return next(new ErrorHandler("New Password cannot be same as old password", 400));
+    }
+    
     user.password = newPassword;
     await user.save();
 
