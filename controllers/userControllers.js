@@ -235,13 +235,20 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
         resetPasswordExpire: {
             $gt: Date.now(),
         }
-    });
+    }).select("+password");
 
     if (!user) {
         return next(new ErrorHandler("Token is invalid or been expired", 401));
     }
 
-    user.password = req.body.password;
+    const { password } = req.body;
+
+    const isMatched = await user.comparePassword(password);
+
+    if (isMatched)
+        return next(new ErrorHandler("Cannot keep New Password as same as Old Password", 401));
+
+    user.password = password;
     user.resetPasswordExpire = undefined;
     user.resetPasswordToken = undefined;
 
@@ -281,7 +288,7 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-            message: "Your Request is successfully submitted for Review. You will be notified within 5-14 working days.",
+            message: "Your Request is successfully submitted for Review. You will be notified within 1-3 working days.",
         });
     } catch (error) {
         // Handle any errors that might occur during the process
