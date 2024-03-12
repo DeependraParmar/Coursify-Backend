@@ -1,11 +1,13 @@
 import express from "express";
-import { addNewLecture, createNewCourse, deleteACourse, deleteLecture, editCourseDetails, getAllCourses, getCourseLectures } from "../controllers/courseController.js";
+import { addNewLecture, createNewCourse, deleteACourse, deleteLecture, editCourseDetails, getAllCourses, getCourseLectures, getSpecificCourse } from "../controllers/courseController.js";
 import { isAuthenticated, isVerifiedCourseUser, isVerifiedInstructor } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
 const router = express.Router();
 
 router.route("/courses").get(getAllCourses);
+
+router.route("/course/:id").get(getSpecificCourse);
 
 router.route("/createcourse").post(isAuthenticated, isVerifiedInstructor, singleUpload, createNewCourse);
 

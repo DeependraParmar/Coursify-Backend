@@ -31,7 +31,22 @@ export const getAllCourses = catchAsyncError(async(req,res,next) => {
         success: true,
         courses,
     })
-})
+});
+
+// controller for getting specific course
+export const getSpecificCourse = catchAsyncError(async(req,res,next) => {
+    const {id} = req.params;
+    const course = await Course.findById(id).select('-lectures');
+
+    if(!course){
+        return next(new ErrorHandler("Course Not Found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        course
+    });
+});
 
 
 // controller for getting a new course created 
