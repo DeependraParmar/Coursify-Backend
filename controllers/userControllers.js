@@ -86,6 +86,7 @@ export const getPublicProfile = catchAsyncError(async (req, res, next) => {
     res.status(200).json({
         success: true,
         user: {
+            id: dbUser._id,
             name: dbUser.name,
             email: dbUser.email,
             avatar: dbUser.avatar,
