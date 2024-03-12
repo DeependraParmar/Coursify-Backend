@@ -89,6 +89,15 @@ export const getPublicProfile = catchAsyncError(async (req, res, next) => {
             name: dbUser.name,
             email: dbUser.email,
             avatar: dbUser.avatar,
+            about: dbUser.about,
+            social: {
+                linkedin: dbUser.linkedin,
+                twitter: dbUser.twitter,
+                github: dbUser.github,
+                facebook: dbUser.facebook,
+                website: dbUser.website,
+                youtube: dbUser.youtube,
+            },
             courses: createdCourses,
         }
     })
