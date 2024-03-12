@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import ErrorMiddleware from "./middlewares/ErrorMiddleware.js";
 import cors from "cors";
+import MongoStore from "connect-mongo";
 
 // creating the express application here 
 const app = express();
@@ -16,8 +17,12 @@ config({
 // using the express session middleware here 
 app.use(session({
     secret: process.env.SESSION_SECRET,
+    store: new MongoStore({ mongoUrl: process.env.MONGO_URI }),
     resave: false,
     saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 15
+    }
 }));
 
 // using the middlewares in order to help passport 
