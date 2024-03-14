@@ -44,18 +44,10 @@ export const paymentVerification = async (req, res, next) => {
         course.totalPurchases += 1;
         await user.save();
         await course.save();
-
-        return res.status(200).json({
-            success: true,
-            message: "Payment Successful",
-            reference: razorpay_payment_id
-        })
+        return res.redirect(`${process.env.FRONTEND_URL}/paymentsuccess?reference=${razorpay_payment_id}`)
     }
     else{
-        res.status(400).json({
-            success: false,
-            message: "Payment Failed"
-        })
+        return res.redirect(`${process.env.FRONTEND_URL}/paymentfailed?reference=${razorpay_payment_id}`)
     }
 }
 
