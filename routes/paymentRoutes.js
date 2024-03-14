@@ -10,7 +10,7 @@ router.route("/paymentverification").post(isAuthenticated,paymentVerification);
 
 router.route("/getrazorpaykey").get(getRazorpayKey);
 
-router.route("/paymentverification/:course_id").get(isAuthenticated,paymentVerification);
+router.route("/paymentverification/:course_id").post(isAuthenticated,paymentVerification);
 
 
 export default router;
