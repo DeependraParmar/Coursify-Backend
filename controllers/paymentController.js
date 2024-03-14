@@ -37,6 +37,7 @@ export const paymentVerification = async (req, res, next) => {
             course: course._id,
             thumbnail: course.poster.public_id,
         });
+        course.totalPurchases += 1;
         await user.save();
         res.redirect(`${process.env.FRONTEND_URL}/paymentsuccess?reference=${razorpay_payment_id}`)
     }
@@ -44,18 +45,16 @@ export const paymentVerification = async (req, res, next) => {
         res.redirect(`${process.env.FRONTEND_URL}/paymentfailed?reference=${razorpay_payment_id}`)
     }
 
-    user.courses.push({
-        course: course._id,
-        thumbnail: course.poster.public_id,
-    });
-
-    course.totalPurchases += 1;
-
-    await user.save();
 
     res.status(200).json({
         success: true,
         message: "Course Bought Successfully",
         courses: user.courses,
     })
+}
+
+export const getRazorpayKey = async(req,res,next) => {
+    res.status(200).json({
+        key: process.env.RAZORPAY_API_KEY
+    });
 }
