@@ -22,7 +22,11 @@ export const paymentVerification = async (req, res, next) => {
     const {razorpay_order_id, razorpay_payment_id, razorpay_signature} = req.body;
     const user = await User.findById(req.user._id);
     const course = await Course.findById(req.params.course_id);
-    
+
+    if(!course){
+        return next(new ErrorHandler("Course Not Found", 404));
+    }
+
     const body = razorpay_order_id + "|" + razorpay_payment_id;
     const expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_API_SECRET).update(body.toString()).digest('hex')
 
@@ -34,7 +38,7 @@ export const paymentVerification = async (req, res, next) => {
             razorpay_order_id,razorpay_payment_id,razorpay_signature
         });
         user.courses.push({
-            course: course._id,
+            course: req.params.course_id,
             thumbnail: course.poster.public_id,
         });
         course.totalPurchases += 1;
