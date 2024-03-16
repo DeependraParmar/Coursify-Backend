@@ -23,7 +23,7 @@ export const instance = new Razorpay({
 app.get("/", (req,res) => {
     res.status(200).json({
         success: true,
-        message: "Status: 200 ✅✔"
+        message: "Status: 200 ✅"
     });
 });
 
