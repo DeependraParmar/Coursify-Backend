@@ -23,7 +23,7 @@ export const instance = new Razorpay({
 app.get("/", (req,res) => {
     res.status(200).json({
         success: true,
-        message: "Server is working fine guys....😁😅😂"
+        message: "Status: 200 ✅✔"
     });
 });
 
@@ -37,8 +37,6 @@ nodeCron.schedule("0 0 0 1 * *", async() => {
     }
 });
 nodeCron.schedule('*/14 * * * *', async() => {
-    console.log('Making request to server...');
-
     try{
         const {data} = await axios.get(process.env.SERVER_URL);
         console.log(data.message);
