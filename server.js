@@ -48,7 +48,6 @@ nodeCron.schedule('*/14 * * * *', async() => {
 });
 
 
-
 app.listen(process.env.PORT, () => {
     console.log(`Server is live at http://localhost:${process.env.PORT}`);
 });

@@ -26,7 +26,7 @@ export const register = catchAsyncError(async (req, res, next) => {
         name, email, password,
         avatar: {
             public_id: "default",
-            url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1704588526/8380015_bgnejr.jpg"
+            url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1710556884/user_hf1kxp.png"
         }
     });
 
