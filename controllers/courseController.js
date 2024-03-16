@@ -231,6 +231,38 @@ export const editCourseDetails = catchAsyncError( async(req,res,next) => {
 })
 
 
+export const getCourseStatus = catchAsyncError(async(req,res,next) => {
+    const user = await User.findById(req.user._id);
+    const {courseId} = req.body;
+
+    if(!courseId){
+        return next(new ErrorHandler("Course Not Found", 404));
+    }
+
+    let isFound = false;
+    for (let i = 0; i < user.courses.length; i++) {
+        if (courseId == user.courses[i].course) {
+            isFound = true;
+            break;
+        }
+    }
+
+    if(isFound == true){
+        return res.status(200).json({
+            success: true,
+            isVerifiedCourseUser: true,
+        });
+    }
+    else{
+        return res.status(200).json({
+            success: true,
+            isVerifiedCourseUser: false,
+        });
+    }
+});
+
+
+
 // controller for watching thè course and getting the total views in the statsData 
 Course.watch().on("change", async (req,res,next) => {
     const stats = [];
