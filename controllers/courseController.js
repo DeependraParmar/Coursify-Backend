@@ -235,8 +235,6 @@ export const getCourseStatus = catchAsyncError(async(req,res,next) => {
     const user = await User.findById(req.user._id);
     const { id } = req.params;
 
-    console.log("fine till 01")
-
     if(!id){
         return next(new ErrorHandler("Course Not Found", 404));
     }
@@ -250,14 +248,12 @@ export const getCourseStatus = catchAsyncError(async(req,res,next) => {
     }
 
     if(isFound == true){
-        console.log("returning true");
         return res.status(200).json({
             success: true,
             isVerifiedCourseUser: true,
         });
     }
     else{
-        console.log("returning false");
         return res.status(405).json({
             success: false,
             isVerifiedCourseUser: false,
