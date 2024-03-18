@@ -108,7 +108,7 @@ export const addNewLecture = catchAsyncError(async(req,res,next) => {
         return next(new ErrorHandler("Course Not Found", 404));
     }
     
-    if(!title || !description || !notes || !file){
+    if(!title || !description || !file){
         return next(new ErrorHandler("All fields are required", 400));
     }
     
