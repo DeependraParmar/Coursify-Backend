@@ -93,7 +93,7 @@ export const getCourseLectures = catchAsyncError(async(req,res,next) => {
 
     res.status(200).json({
         success: true,
-        lectures: course.lectures
+        course
     })
 });
 
