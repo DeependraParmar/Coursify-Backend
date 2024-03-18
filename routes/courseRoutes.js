@@ -8,7 +8,8 @@ const router = express.Router();
 router.route("/courses").get(getAllCourses);
 
 router.route("/course/:id").get(getSpecificCourse);
-router.route("/getcoursestatus").get(isAuthenticated, getCourseStatus);
+
+router.route("/ispurchased/:id").get(isAuthenticated, getCourseStatus);
 
 router.route("/createcourse").post(isAuthenticated, isVerifiedInstructor, singleUpload, createNewCourse);
 

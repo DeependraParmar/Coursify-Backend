@@ -233,29 +233,33 @@ export const editCourseDetails = catchAsyncError( async(req,res,next) => {
 
 export const getCourseStatus = catchAsyncError(async(req,res,next) => {
     const user = await User.findById(req.user._id);
-    const {courseId} = req.body;
+    const { id } = req.params;
 
-    if(!courseId){
+    console.log("fine till 01")
+
+    if(!id){
         return next(new ErrorHandler("Course Not Found", 404));
     }
 
     let isFound = false;
     for (let i = 0; i < user.courses.length; i++) {
-        if (courseId == user.courses[i].course) {
+        if (id == user.courses[i].course) {
             isFound = true;
             break;
         }
     }
 
     if(isFound == true){
+        console.log("returning true");
         return res.status(200).json({
             success: true,
             isVerifiedCourseUser: true,
         });
     }
     else{
-        return res.status(200).json({
-            success: true,
+        console.log("returning false");
+        return res.status(405).json({
+            success: false,
             isVerifiedCourseUser: false,
         });
     }

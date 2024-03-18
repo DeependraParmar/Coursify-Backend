@@ -31,7 +31,7 @@ export const isVerifiedAdmin = async(req,res,next) => {
     if(!verifiedAdmin){
         return next(new ErrorHandler("Unauthorised Access: Admin privileges not available", 400))
     }
-
+    
     next();
 }
 
