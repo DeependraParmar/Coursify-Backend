@@ -33,10 +33,11 @@ export const register = catchAsyncError(async (req, res, next) => {
         user.otp = otp;
         await user.save();
     }
-    
-    user = await PreRegister.create({
-        name, email, password, otp
-    });
+    else{
+        user = await PreRegister.create({
+            name, email, password, otp
+        });
+    }
 
     sendEmail(user.email, "Coursify: Email Verification", `Your OTP is ${otp}. Please verify your email to register.`);
 
