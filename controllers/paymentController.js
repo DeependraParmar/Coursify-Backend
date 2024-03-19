@@ -40,6 +40,7 @@ export const paymentVerification = async (req, res, next) => {
         user.courses.push({
             course: req.params.course_id,
             thumbnail: course.poster.url,
+            title: course.title,
         });
         course.totalPurchases += 1;
         await user.save();
