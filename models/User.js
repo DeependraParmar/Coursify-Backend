@@ -125,6 +125,9 @@ const schema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    otp: {
+        type: Number,
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date
 });

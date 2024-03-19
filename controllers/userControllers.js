@@ -9,6 +9,7 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
+import { PreRegister } from "../models/PreRegister.js";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
@@ -22,6 +23,49 @@ export const register = catchAsyncError(async (req, res, next) => {
     if (user)
         return next(new ErrorHandler("User Already Exists. Please go to Login", 409));
 
+    const otp = Math.floor(100000 + Math.random() * 900000);
+
+    user = await PreRegister.findOne({ email}); 
+
+    if(user){
+        user.name = name;
+        user.password = password;
+        user.otp = otp;
+        await user.save();
+    }
+    
+    user = await PreRegister.create({
+        name, email, password, otp
+    });
+
+    sendEmail(user.email, "Coursify: Email Verification", `Your OTP is ${otp}. Please verify your email to register.`);
+
+    res.status(200).json({
+        success: true,
+        message: "OTP sent to mail. Please verify your email to register."
+    })
+});
+
+export const verifyRegister = catchAsyncError(async (req, res, next) => {
+    const { name, email, password, otp } = req.body;
+
+    if(!name || !email || !password || !otp){
+        return next(new ErrorHandler("All fields are required", 400));
+    }
+
+    let user = await PreRegister.findOne({ email });
+
+    if(!user){
+        return next(new ErrorHandler("User not found", 404));
+    }
+
+    if(user.otp !== otp){
+        return next(new ErrorHandler("Invalid OTP", 400));
+    }
+
+    // deleting the temporary user stored in pre-register
+    await PreRegister.deleteOne({ email });
+
     user = await User.create({
         name, email, password,
         avatar: {
@@ -30,9 +74,8 @@ export const register = catchAsyncError(async (req, res, next) => {
         }
     });
 
-    sendToken(res, user, "User Registered Successfully", 201);
+    sendToken(res, user, "Registration Successfull", 201);
 });
-
 
 
 // controller to login a  user 
@@ -123,22 +166,22 @@ export const updateProfile = catchAsyncError(async (req, res, next) => {
     if (phoneNumber) {
         user.phoneNumber = phoneNumber;
     }
-    if(linkedin){
+    if (linkedin) {
         user.linkedin = linkedin;
     }
-    if(twitter){
+    if (twitter) {
         user.twitter = twitter;
     }
-    if(github){
+    if (github) {
         user.github = github;
     }
-    if(facebook){
+    if (facebook) {
         user.facebook = facebook;
     }
-    if(website){
+    if (website) {
         user.website = website;
     }
-    if(youtube){
+    if (youtube) {
         user.youtube = youtube;
     }
 
@@ -189,10 +232,10 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
     if (!isMatched)
         return next(new ErrorHandler("Incorrect Old Password", 401));
 
-    if(oldPassword === newPassword){
+    if (oldPassword === newPassword) {
         return next(new ErrorHandler("New Password cannot be same as old password", 400));
     }
-    
+
     user.password = newPassword;
     await user.save();
 
