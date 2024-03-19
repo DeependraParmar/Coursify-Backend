@@ -71,7 +71,7 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
         name, email, password,
         avatar: {
             public_id: "default",
-            url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1710556884/user_hf1kxp.png"
+            url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1710840543/def_user_qsxwsn.jpg"
         }
     });
 
