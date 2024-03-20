@@ -368,7 +368,7 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
     const emailTemplatePath = path.join(process.cwd(), "views", "passwordChanged.ejs");
     const emailTemplate = await ejs.renderFile(emailTemplatePath, {
         user: user.name,
-        time: new Date(Date.now()).toLocaleTimeString(),
+        time: new Date(Date.now()).toLocaleTimeString('en-US'),
         date: new Date(Date.now()).toDateString(),
     });
 
