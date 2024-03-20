@@ -1,5 +1,5 @@
 import express from "express";
-import { changePassword, forgetPassword, getCreatedCourses, getMyCourses, getPublicProfile, login, logout, myProfile, register, registerAsInstructor, resetPassword, updateProfile, updateProfilePicture, verifyRegister } from "../controllers/userControllers.js";
+import { changePassword, forgetPassword, getCreatedCourses, getMyCourses, getPublicProfile, htmlToPdf, login, logout, myProfile, register, registerAsInstructor, resetPassword, updateProfile, updateProfilePicture, verifyRegister } from "../controllers/userControllers.js";
 import { isAuthenticated, isVerifiedInstructor } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -9,6 +9,8 @@ const router = express.Router();
 
 // *************** ROUTES FOR USER PROFILE AND LOGOUT *******************************
 // route for getting the profile of the user 
+
+router.get("/receipt", htmlToPdf);
 
 router.post("/register", register);
 router.post("/verify-register", verifyRegister);
