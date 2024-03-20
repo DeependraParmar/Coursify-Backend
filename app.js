@@ -30,6 +30,9 @@ app.get("/reset", (req, res) => {
 app.get("/welcome", (req, res) => {
     res.render('welcome', { user: "Deependra Parmar"});
 })
+app.get("/password", (req, res) => {
+    res.render('passwordChanged', { user: "Deependra Parmar", time: "12:00 PM", date: "12th May 2021"});
+})
 
 // using the express session middleware here 
 app.use(session({

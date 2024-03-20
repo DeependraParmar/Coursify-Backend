@@ -53,7 +53,7 @@ export const register = catchAsyncError(async (req, res, next) => {
         html: emailTemplate,
     }
 
-    sendEmail(mailOptions);
+    await sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
@@ -101,7 +101,7 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
         html: emailTemplate,
     }
 
-    sendEmail(mailOptions);
+    await sendEmail(mailOptions);
 
     sendToken(res, user, "Registration Successfull", 201);
 });
@@ -268,6 +268,22 @@ export const changePassword = catchAsyncError(async (req, res, next) => {
     user.password = newPassword;
     await user.save();
 
+    const emailTemplatePath = path.join(process.cwd(), "views", "passwordChanged.ejs");
+    const emailTemplate = await ejs.renderFile(emailTemplatePath, {
+        user: user.name,
+        time: new Date(Date.now()).toLocaleTimeString(),
+        date: new Date(Date.now()).toDateString(),
+    });
+
+    let mailOptions = {
+        to: user.email,
+        from: `Coursify🚀 ${process.env.MY_MAIL}`,
+        subject: "Password Reset Successfull | Full Protection Mode ON! 🛡️",
+        html: emailTemplate,
+    }
+
+    await sendEmail(mailOptions);
+
     res.status(200).json({
         success: true,
         message: "Password Updated Successfully",
@@ -307,10 +323,10 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
         html: emailTemplate,
     }
 
-    sendEmail(mailOptions);
+    await sendEmail(mailOptions);
 
     // send token via email 
-    await sendEmail(mailOptions);
+    await await sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
@@ -348,6 +364,22 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
     user.resetPasswordToken = undefined;
 
     await user.save();
+
+    const emailTemplatePath = path.join(process.cwd(), "views", "passwordChanged.ejs");
+    const emailTemplate = await ejs.renderFile(emailTemplatePath, {
+        user: user.name,
+        time: new Date(Date.now()).toLocaleTimeString(),
+        date: new Date(Date.now()).toDateString(),
+    });
+
+    let mailOptions = {
+        to: user.email,
+        from: `Coursify🚀 ${process.env.MY_MAIL}`,
+        subject: "Password Reset Successfull | Full Protection Mode ON! 🛡️",
+        html: emailTemplate,
+    }
+
+    await sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
