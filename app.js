@@ -6,13 +6,30 @@ import passport from "passport";
 import ErrorMiddleware from "./middlewares/ErrorMiddleware.js";
 import cors from "cors";
 import MongoStore from "connect-mongo";
+import path from "path";
+import { fileURLToPath } from 'url';
 
 // creating the express application here 
 const app = express();
 
+// config for dotenv 
 config({
     path: "./config/config.env"
 });
+
+// setting the template engine to ejs 
+app.set("view engine", "ejs");
+app.set("views", path.join( process.cwd() , "views"));
+
+app.get("/otp", (req, res) => {
+    res.render('otpTemplate', { otp: 123456 });
+})
+app.get("/reset", (req, res) => {
+    res.render('resetPassword', { link: "https://coursify-frontend.vercel.app/" });
+})
+app.get("/welcome", (req, res) => {
+    res.render('welcome', { user: "Deependra Parmar"});
+})
 
 // using the express session middleware here 
 app.use(session({

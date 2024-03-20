@@ -1,6 +1,6 @@
 import { createTransport } from "nodemailer";
 
-export const sendEmail = async (to, subject, text) => {
+export const sendEmail = async (mailOptions) => {
     const transporter = createTransport({
         host: "smtp.gmail.com",
         service: "gmail",
@@ -12,7 +12,5 @@ export const sendEmail = async (to, subject, text) => {
         },
     });
 
-    await transporter.sendMail({
-        to, subject, text, from: process.env.MY_MAIL
-    });
+    await transporter.sendMail(mailOptions);
 }

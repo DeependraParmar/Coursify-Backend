@@ -10,6 +10,8 @@ import getDataUri from "../utils/dataUri.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
 import { PreRegister } from "../models/PreRegister.js";
+import path from "path";
+import ejs from "ejs";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
@@ -39,7 +41,19 @@ export const register = catchAsyncError(async (req, res, next) => {
         });
     }
 
-    sendEmail(user.email, "Coursify: Email Verification", `Your OTP is ${otp}. Please verify your email to register.`);
+    const emailTemplatePath = path.join(process.cwd(), "views", "otpTemplate.ejs");
+    const emailTemplate = await ejs.renderFile(emailTemplatePath, {
+        otp: otp,
+    });
+
+    let mailOptions = {
+        to: email,
+        from: `Coursify🚀 ${process.env.MY_MAIL}`,
+        subject: "Complete signing up for Coursify by verifying your email with this OTP",
+        html: emailTemplate,
+    }
+
+    sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
@@ -74,6 +88,20 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
             url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1710840543/def_user_qsxwsn.jpg"
         }
     });
+
+    const emailTemplatePath = path.join(process.cwd(), "views", "welcome.ejs");
+    const emailTemplate = await ejs.renderFile(emailTemplatePath, {
+        user: user.name,
+    });
+
+    let mailOptions = {
+        to: user.email,
+        from: `Coursify🚀 ${process.env.MY_MAIL}`,
+        subject: "Welcome to Coursify! 🚀🌟",
+        html: emailTemplate,
+    }
+
+    sendEmail(mailOptions);
 
     sendToken(res, user, "Registration Successfull", 201);
 });
@@ -266,10 +294,23 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
     await user.save();
 
     const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
-    const message = `Click on the link to reset your password: ${url}. If your have not requested then, please ignore.`
+    
+    const emailTemplatePath = path.join(process.cwd(), "views", "resetPassword.ejs");
+    const emailTemplate = await ejs.renderFile(emailTemplatePath, {
+        link: url,
+    });
+
+    let mailOptions = {
+        to: email,
+        from: `Coursify🚀 ${process.env.MY_MAIL}`,
+        subject: "Forgot Password, No Worries. Reset it!",
+        html: emailTemplate,
+    }
+
+    sendEmail(mailOptions);
 
     // send token via email 
-    await sendEmail(user.email, "Coursify: Forgot Password!! No Worries. Reset it", message);
+    await sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
