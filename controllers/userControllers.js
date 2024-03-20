@@ -123,6 +123,11 @@ export const htmlToPdf = catchAsyncError(async (req, res, next) => {
             right: "10px",
             bottom: "10px",
             left: "10px"
+        },
+        childProcessOptions: {
+            env: {
+                OPENSSL_CONF: '/dev/null',
+            },
         }
     };
 
