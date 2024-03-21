@@ -1,19 +1,18 @@
 import cloudinary from "cloudinary";
 import crypto from "crypto";
+import ejs from "ejs";
+import path from "path";
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import { Course } from "../models/Course.js";
 import { InstructorStats } from "../models/InstructorStats.js";
+import { PreRegister } from "../models/PreRegister.js";
 import { Review } from "../models/Review.js";
 import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
-import { PreRegister } from "../models/PreRegister.js";
-import path from "path";
-import ejs from "ejs";
-import pdf from "html-pdf"
-import fs from "fs"
+import puppeter from "puppeteer";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
@@ -110,45 +109,33 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
 
 // receipt generation
 export const htmlToPdf = catchAsyncError(async (req, res, next) => {
-    const emailTemplatePath = path.join(process.cwd(), "views", "welcome.ejs");
-    const emailTemplate = await ejs.renderFile(emailTemplatePath, {
+    const receiptPath = path.join(process.cwd(), "views", "welcome.ejs");
+    const receipt = await ejs.renderFile(receiptPath, {
         user: "Deependra Parmar"
     });
 
-    const options = {
-        format: "Letter",
-        type: "pdf",
-        border: {
-            top: "10px",
-            right: "10px",
-            bottom: "10px",
-            left: "10px"
-        },
-        childProcessOptions: {
-            env: {
-                OPENSSL_CONF: '/dev/null',
-            },
+    const browser = await puppeter.launch();
+    const page = await browser.newPage();
+
+    await page.setContent(receipt, { waitUntil: 'networkidle0' });
+
+    const pdfBuffer = await page.pdf({
+        format: "A4",
+        printBackground: true,
+        margin: {
+            top: '10px',
+            right: '10px',
+            bottom: '10px',
+            left: '10px'
         }
-    };
-
-    pdf.create(emailTemplate, options).toFile('output.pdf', (err, name) => {
-        if (err) {
-            console.log(err);
-            res.status(500).send('Error generating PDF');
-            return;
-        }
-        console.log("PDF Created");
-
-        // Read the generated PDF file
-        const file = fs.createReadStream(path.join(process.cwd(), "output.pdf"));
-
-        // Set response headers
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'inline; filename="output.pdf"');
-
-        // Pipe the file stream to the response object
-        file.pipe(res);
     });
+
+    await browser.close();
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="Receipt.pdf" ');
+
+    res.send(pdfBuffer);
 });
 
 // controller to login a  user 

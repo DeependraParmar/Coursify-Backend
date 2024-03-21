@@ -1,13 +1,13 @@
+import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import { config } from "dotenv";
 import express from "express";
 import session from "express-session";
-import cookieParser from "cookie-parser";
 import passport from "passport";
-import ErrorMiddleware from "./middlewares/ErrorMiddleware.js";
-import cors from "cors";
-import MongoStore from "connect-mongo";
 import path from "path";
-import { fileURLToPath } from 'url';
+import ErrorMiddleware from "./middlewares/ErrorMiddleware.js";
+import fs from "fs";
 
 // creating the express application here 
 const app = express();
@@ -33,6 +33,9 @@ app.get("/welcome", (req, res) => {
 app.get("/password", (req, res) => {
     res.render('passwordChanged', { user: "Deependra Parmar", time: "12:00 PM", date: "12th May 2021"});
 })
+app.get("/get-receipt", (req,res) => {
+    res.sendFile(path.join(process.cwd(), "/index.html"));
+});
 
 
 // using the express session middleware here 
@@ -61,11 +64,11 @@ app.use(cookieParser());
 
 
 // importing the routers here 
-import userRouter from "./routes/userRoutes.js";
 import courseRouter from "./routes/courseRoutes.js";
 import otherRouter from "./routes/otherRoutes.js";
-import reviewRouter from "./routes/reviewRoutes.js"
-import paymentRouter from "./routes/paymentRoutes.js"
+import paymentRouter from "./routes/paymentRoutes.js";
+import reviewRouter from "./routes/reviewRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 app.use("/api/v1",userRouter);
 app.use("/api/v1",courseRouter);
