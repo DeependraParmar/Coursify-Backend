@@ -1,5 +1,5 @@
-import path from "path"
+const path = require("path");
 
-export default config = {
+module.exports = {
     cacheDirectory: path.join(process.cwd(), '.cache', 'puppeteer')
 }
