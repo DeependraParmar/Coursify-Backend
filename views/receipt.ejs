@@ -18,12 +18,143 @@
             margin: 0;
             padding: 0;
         }
-
+        .container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            gap: 1rem;
+        }
+        .header{
+            background-color: #5000bb;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 1rem 0rem;
+            width: 100%;
+        }
+        .header > .logo{
+            width: 10%;
+        }
+        .header > .logo > img{
+            width: 100%;
+        }
+        .heading{
+            width: 60%;
+        }
+        .heading > h1{
+            font-family: 'Young Serif';
+            color: white;
+            font-weight: 800;
+            font-size: 2.75rem;
+            text-align: center;
+        }
+        .heading > p{
+            font-family: cursive;
+            text-align: center;
+            color: white;
+            font-weight: 400;
+            font-style: italic;
+        }
+        .details{
+            color: white;
+            text-align: right;
+        }
+        .details a{
+            color: white;
+            font-size: 0.7rem;
+        }
+        .payment-heading{
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        .fa-solid{
+            margin-right: 5px;
+        }
+        .table{
+            width: 97%;
+        }
+        table, tr, td, th{
+            font-size: 0.7rem;
+            padding: 8px 5px;
+            text-align: center;
+            border: 1px solid rgb(207, 207, 207);
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead{
+            background-color: #5000bb;
+            color: white;
+        }
+        .course{
+            width: 97%;
+        }
+        .course > p{
+            text-align: left;
+            width: 100%;
+        }
     </style>
 </head>
 
 <body>
-    
+    <div class="container">
+        <div class="header">
+            <div class="logo"><img src="https://res.cloudinary.com/dmmrtqe8q/image/upload/v1711015257/favicon_coursify-removebg-preview_k8n5oa.png" alt=""></div>
+            <div class="heading">
+                <h1>Coursify</h1>
+                <p>Learn. Innovate. Grow</p>
+            </div>
+            <div class="details">
+                <p><b><i class="fa-solid fa-envelope"></i>: </b><a href="mailto:coursify05@gmail.com">coursify05@gmail.com</a></p>
+                <p><b><i class="fa-solid fa-phone"></i>: </b> <a href="tel:+917000246377">7000246377</a></p>
+            </div>
+        </div>
+        <div class="payment-heading">Purchase Invoice</div>
+        <div class="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">Transaction Details</th>
+                        <th colspan="2">User Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <td>pay_wotypsmfht</td>
+                        <th>Billed to</th>
+                        <td>Deependra Parmar</td>
+                    </tr>
+                    <tr>
+                        <th>Transaction Date</th>
+                        <td>20 May 2023</td>
+                        <th>Phone Number</th>
+                        <td>7000246377</td>
+                    </tr>
+                    <tr>
+                        <th>Transaction Amount</th>
+                        <td>₹ 999</td>
+                        <th>Email</th>
+                        <td>deependraparmar1@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <th>Valid upto</th>
+                        <td>Lifetime Validity</td>
+                        <th>Bill No</th>
+                        <td>3564</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="course">
+            <p>Course: <b>ReactJS Beginner to Advanced by Deependra Parmar</b></p>
+            <p>Coupon Code Applied: <b>Nil</b></p>
+        </div>
+    </div>
 </body>
 
 </html>

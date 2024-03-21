@@ -26,6 +26,9 @@ app.get("/otp", (req, res) => {
 })
 app.get("/reset", (req, res) => {
     res.render('resetPassword', { link: "https://coursify-frontend.vercel.app/" });
+});
+app.get("/ejs-receipt", (req,res) => {
+    res.render('receipt');
 })
 app.get("/welcome", (req, res) => {
     res.render('welcome', { user: "Deependra Parmar"});
@@ -33,7 +36,9 @@ app.get("/welcome", (req, res) => {
 app.get("/password", (req, res) => {
     res.render('passwordChanged', { user: "Deependra Parmar", time: "12:00 PM", date: "12th May 2021"});
 })
-app.get("/get-receipt", (req,res) => {
+
+
+app.get("/receipt", (req,res) => {
     res.sendFile(path.join(process.cwd(), "/index.html"));
 });
 

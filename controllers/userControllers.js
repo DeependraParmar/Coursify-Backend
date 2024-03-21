@@ -109,7 +109,7 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
 
 // receipt generation
 export const htmlToPdf = catchAsyncError(async (req, res, next) => {
-    const receiptPath = path.join(process.cwd(), "views", "welcome.ejs");
+    const receiptPath = path.join(process.cwd(), "views", "receipt.ejs");
     const receipt = await ejs.renderFile(receiptPath, {
         user: "Deependra Parmar"
     });
