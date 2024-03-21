@@ -1,5 +1,5 @@
-import {join} from "path"
+import path from "path"
 
 export default config = {
-    cacheDirectory: join(process.cwd(), '.cache', 'puppeteer')
+    cacheDirectory: path.join(process.cwd(), '.cache', 'puppeteer')
 }
