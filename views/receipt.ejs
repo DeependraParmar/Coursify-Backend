@@ -11,91 +11,103 @@
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,300&family=Young+Serif&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,400;0,500;0,600;0,700;0,800;0,900;1,300&family=PT+Serif&display=swap');
 
         * {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
+            line-height: 1.3;
         }
         .container{
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             flex-direction: column;
             width: 100%;
             gap: 1rem;
         }
         .header{
-            background-color: #5000bb;
+            background-color: rgba(249, 196, 7, 0.308);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 0rem;
+        }
+        .header > div{
+            width: 90%;
             display: flex;
             align-items: center;
-            justify-content: space-around;
-            padding: 1rem 0rem;
-            width: 100%;
+            justify-content: space-between;
         }
-        .header > .logo{
-            width: 10%;
-        }
-        .header > .logo > img{
-            width: 100%;
-        }
-        .heading{
-            width: 60%;
-        }
-        .heading > h1{
-            font-family: 'Young Serif';
-            color: white;
-            font-weight: 800;
-            font-size: 2.75rem;
-            text-align: center;
-        }
-        .heading > p{
-            font-family: cursive;
-            text-align: center;
-            color: white;
-            font-weight: 400;
-            font-style: italic;
-        }
-        .details{
-            color: white;
-            text-align: right;
-        }
-        .details a{
-            color: white;
-            font-size: 0.7rem;
-        }
-        .payment-heading{
-            font-size: 1.5rem;
+        .header > div > h1{
+            font-family: 'PT Serif';
+            font-size: 4rem;
             font-weight: 600;
-            text-align: center;
+            letter-spacing: 3px;
         }
-        .fa-solid{
-            margin-right: 5px;
+        .logo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .logo > img{
+            width: 50px;
+        }
+        .logo > .name{
+            font-family: 'Inter';
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .outer-para{
+            width: 95%;
+            text-align: left;
+        }
+        .body{
+            margin: 1rem 0rem;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .content{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .transaction{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
         .table{
-            width: 97%;
+            width: 100%;
         }
-        table, tr, td, th{
-            font-size: 0.7rem;
-            padding: 8px 5px;
-            text-align: center;
-            border: 1px solid rgb(207, 207, 207);
+        .us{
+            text-align: right;
         }
         table{
             width: 100%;
-            border-collapse: collapse;
         }
-        thead{
-            background-color: #5000bb;
-            color: white;
+        th{
+            border-bottom: 1px solid rgb(227, 227, 227);
+            background-color: rgba(249, 196, 7, 0.308);
         }
-        .course{
-            width: 97%;
+        td{
+            background-color: rgba(128, 128, 128, 0.1);
         }
-        .course > p{
-            text-align: left;
-            width: 100%;
+        th,tr,td{
+            text-align: center;
+            padding: 10px;
+        }
+        .note{
+            background-color: rgba(249, 196, 7, 0.308);
+            padding: 10px;
+            text-align: center;
         }
     </style>
 </head>
@@ -103,56 +115,73 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo"><img src="https://res.cloudinary.com/dmmrtqe8q/image/upload/v1711015257/favicon_coursify-removebg-preview_k8n5oa.png" alt=""></div>
-            <div class="heading">
-                <h1>Coursify</h1>
-                <p>Learn. Innovate. Grow</p>
-            </div>
-            <div class="details">
-                <p><b><i class="fa-solid fa-envelope"></i>: </b><a href="mailto:coursify05@gmail.com">coursify05@gmail.com</a></p>
-                <p><b><i class="fa-solid fa-phone"></i>: </b> <a href="tel:+917000246377">7000246377</a></p>
+            <div>
+                <h1>INVOICE</h1>
+                <div class="logo">
+                    <img src="https://res.cloudinary.com/dmmrtqe8q/image/upload/v1711015257/favicon_coursify-removebg-preview_k8n5oa.png"
+                        alt="">
+                    <p class="name">Coursify Ltd.</p>
+                </div>
             </div>
         </div>
-        <div class="payment-heading">Purchase Invoice</div>
-        <div class="table">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="2">Transaction Details</th>
-                        <th colspan="2">User Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>Transaction ID</th>
-                        <td>pay_wotypsmfht</td>
-                        <th>Billed to</th>
-                        <td>Deependra Parmar</td>
-                    </tr>
-                    <tr>
-                        <th>Transaction Date</th>
-                        <td>20 May 2023</td>
-                        <th>Phone Number</th>
-                        <td>7000246377</td>
-                    </tr>
-                    <tr>
-                        <th>Transaction Amount</th>
-                        <td>₹ 999</td>
-                        <th>Email</th>
-                        <td>deependraparmar1@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <th>Valid upto</th>
-                        <td>Lifetime Validity</td>
-                        <th>Bill No</th>
-                        <td>3564</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="course">
-            <p>Course: <b>ReactJS Beginner to Advanced by Deependra Parmar</b></p>
-            <p>Coupon Code Applied: <b>Nil</b></p>
+        <div class="body">
+            <div>
+                <p class="outer-para">Date: <b>15/08/2023</b></p>
+                <p class="outer-para">Invoice No: <b>2000-15</b></p>
+            </div>
+            <div class="content">
+                <div class="user">
+                    <p>BILL TO:</p>
+                    <p><b>Deependra Parmar</b></p>
+                    <p>deependraparmar1@gmail.com</p>
+                    <p>+91-7000246377</p>
+                </div>
+                <div class="us">
+                    <p>BILL FROM:</p>
+                    <p><b>Coursify Ltd.</b></p>
+                    <p>coursify05@gmail.com</p>
+                    <p>+91-7000246377</p>
+                </div>
+            </div>
+            <div class="transaction">
+                <p><b>TRANSACTION ID: </b>pay_eurtfodnvkfh58</p>
+                <p><b>TRANSACTION AMOUNT: </b>₹ 999/-</p>
+                <p><b>VALIDITY: </b> Lifetime Valid</p>
+            </div>
+            <div class="table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.NO.</th>
+                            <th>COURSE</th>
+                            <th>COUPON</th>
+                            <th>PRICE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1.</td>
+                            <td>ReactJS Mastery Course: Beginner to Advanced</td>
+                            <td>-</td>
+                            <td>₹ 999/-</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3" style="text-align: left; padding-left: 1rem;">TOTAL</th>
+                            <th>₹ 999/-</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Payment Method: <b>Online</b></p>
+            <p>Wishing you an exciting and enriching learning journey ahead! 🚀 May your curiosity soar high and your knowledge expand
+            like never before! 📚 <br> Happy learning! 🎉</p>
+            <div style="text-align: left; width: 100%; margin-top: 1rem;">
+                <p>Best Regards 😊🎉🎊</p>
+                <p><b>DEEPENDRA PARMAR</b></p>
+                <p>Founder & CEO</p>
+                <p>Coursify Ltd.</p>
+            </div>
+            <div class="note"><b>Note: </b> This is a computer generated invoice and doesn't require signature.</div>
         </div>
     </div>
 </body>

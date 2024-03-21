@@ -122,12 +122,6 @@ export const htmlToPdf = catchAsyncError(async (req, res, next) => {
     const pdfBuffer = await page.pdf({
         format: "A4",
         printBackground: true,
-        margin: {
-            top: '10px',
-            right: '10px',
-            bottom: '10px',
-            left: '10px'
-        }
     });
 
     await browser.close();
