@@ -146,6 +146,11 @@ export const htmlToPdf = catchAsyncError(async (req, res, next) => {
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'inline; filename="Receipt.pdf" ');
 
+    // making pdf accessible on mobile devices as well: added later on
+    res.setHeader('Content-Transfer-Encoding', 'binary');
+    res.setHeader('Accept-Ranges', 'bytes');
+    res.setHeader('Content-Length', pdfBuffer.length);
+
     res.send(pdfBuffer);
 });
 
