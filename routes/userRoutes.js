@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/verify-register", verifyRegister);
-router.get("/receipt", htmlToPdf); // receipt download
+router.get("/receipt/:id", htmlToPdf); // receipt download
 router.post("/login", login);
 router.get("/profile", isAuthenticated, myProfile);
 router.put("/updateprofile", isAuthenticated, updateProfile);

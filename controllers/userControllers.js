@@ -110,10 +110,10 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
 
 // receipt generation
 export const htmlToPdf = catchAsyncError(async (req, res, next) => {
-    const { id } = req.body;
+    const { id } = req.params;
 
     const payment = await Payment.findOne({ razorpay_payment_id: id });
-
+    
     if(!payment){
         return next(new ErrorHandler("Invalid ID or Payment", 411));
     }
