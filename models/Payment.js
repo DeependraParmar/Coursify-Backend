@@ -16,7 +16,7 @@ const schema = new mongoose.Schema({
     transaction_date: {
         type: Date,
         required: true,
-        default: new Date(Date.now()).toDateString(),
+        default: Date.now,
     },
     invoice_no: {
         type: String,
