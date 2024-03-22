@@ -131,15 +131,15 @@
         </div>
         <div class="body">
             <div>
-                <p class="outer-para">Date: <b>15/08/2023</b></p>
-                <p class="outer-para">Invoice No: <b>2000-15</b></p>
+                <p class="outer-para">Date: <b><%= transaction_date %></b></p>
+                <p class="outer-para">Invoice No: <b><%= invoice_id %></b></p>
             </div>
             <div class="content">
                 <div class="user">
                     <p>BILL TO:</p>
-                    <p><b>Deependra Parmar</b></p>
-                    <p>deependraparmar1@gmail.com</p>
-                    <p>+91-7000246377</p>
+                    <p><b><%= username %></b></p>
+                    <p><%= useremail %></p>
+                    <p><%= userphone %></p>
                 </div>
                 <div class="us">
                     <p>BILL FROM:</p>
@@ -149,8 +149,8 @@
                 </div>
             </div>
             <div class="transaction">
-                <p><b>TRANSACTION ID: </b>pay_eurtfodnvkfh58</p>
-                <p><b>TRANSACTION AMOUNT: </b>₹ 999/-</p>
+                <p><b>TRANSACTION ID: </b><%= transaction_id %></p>
+                <p><b>TRANSACTION AMOUNT: </b>₹ <%=price %>/-</p>
                 <p><b>VALIDITY: </b> Lifetime Valid</p>
             </div>
             <div class="table">
@@ -166,13 +166,13 @@
                     <tbody>
                         <tr>
                             <td>1.</td>
-                            <td>ReactJS Mastery Course: Beginner to Advanced</td>
+                            <td><%= course %></td>
                             <td>-</td>
-                            <td>₹ 999/-</td>
+                            <td>₹ <%= price %>/-</td>
                         </tr>
                         <tr>
                             <th colspan="3" style="text-align: left; padding-left: 1rem;">TOTAL</th>
-                            <th>₹ 999/-</th>
+                            <th>₹ <%= price %>/-</th>
                         </tr>
                     </tbody>
                 </table>

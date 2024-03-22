@@ -13,6 +13,7 @@ import getDataUri from "../utils/dataUri.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
 import puppeter from "puppeteer";
+import { Payment } from "../models/Payment.js";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
@@ -109,9 +110,25 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
 
 // receipt generation
 export const htmlToPdf = catchAsyncError(async (req, res, next) => {
+    const { id } = req.body;
+
+    const payment = await Payment.findOne({ razorpay_payment_id: id });
+
+    if(!payment){
+        return next(new ErrorHandler("Invalid ID or Payment", 411));
+    }
+
     const receiptPath = path.join(process.cwd(), "views", "receipt.ejs");
     const receipt = await ejs.renderFile(receiptPath, {
-        user: "Deependra Parmar"
+        transaction_date: payment.transaction_date,
+        transaction_id: payment.razorpay_payment_id,
+        invoice_id: payment.invoice_no,
+        username: payment.user.name,
+        useremail: payment.user.email,
+        userphone: payment.user.phone,
+        course: payment.course.name,
+        creator: payment.course.creator,
+        price: payment.course.price,
     });
 
     const browser = await puppeter.launch();

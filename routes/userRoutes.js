@@ -10,10 +10,10 @@ const router = express.Router();
 // *************** ROUTES FOR USER PROFILE AND LOGOUT *******************************
 // route for getting the profile of the user 
 
-router.get("/receipt", htmlToPdf);
 
 router.post("/register", register);
 router.post("/verify-register", verifyRegister);
+router.get("/receipt", htmlToPdf); // receipt download
 router.post("/login", login);
 router.get("/profile", isAuthenticated, myProfile);
 router.put("/updateprofile", isAuthenticated, updateProfile);

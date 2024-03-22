@@ -33,9 +33,18 @@ export const paymentVerification = async (req, res, next) => {
     const isAuthenticSignature = expectedSignature === razorpay_signature;
 
     if(isAuthenticSignature){
-        // save all the things to the database 
         await Payment.create({
-            razorpay_order_id,razorpay_payment_id,razorpay_signature
+            razorpay_order_id,razorpay_payment_id,razorpay_signature,
+            user: {
+                name: user.name,
+                email: user.email,
+                phone: user.phoneNumber
+            },
+            transaction_amount: course.price,
+            course: {
+                name: course.title,
+                creator: course.createdBy,
+            },
         });
         user.courses.push({
             course: req.params.course_id,

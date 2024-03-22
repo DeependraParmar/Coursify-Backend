@@ -34,7 +34,7 @@ const schema = new mongoose.Schema({
             required: true
         },
         phone: {
-            type: String,
+            type: Number,
             required: true
         }
     },
@@ -49,6 +49,10 @@ const schema = new mongoose.Schema({
         },
         creator: {
             type: String,
+            required: true
+        },
+        price: {
+            type: Number,
             required: true
         }
     }
