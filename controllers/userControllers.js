@@ -499,13 +499,20 @@ export const getCreatedCourses = catchAsyncError(async (req, res, next) => {
 })
 
 // logging the user out
+// Logout route
 export const logout = catchAsyncError((req, res, next) => {
-    res.clearCookie("connect.sid");
-    res.status(200).json({
-        success: true,
-        message: "Logged Out Successfully"
-    })
+    res.clearCookie("connect.sid", {
+        secure: process.env.NODE_ENV === 'production', // Only secure in production
+        sameSite: 'Lax', // Or 'Strict' as needed
+    });
+    req.session.destroy(() => {
+        res.status(200).json({
+            success: true,
+            message: "Logged Out Successfully"
+        });
+    });
 });
+
 
 // controller for getting the instructor stats
 User.watch().on("change", async (req, res, next) => {

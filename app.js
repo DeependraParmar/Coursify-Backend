@@ -39,13 +39,14 @@ app.get("/password", (req, res) => {
 // using the express session middleware here 
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    store: new MongoStore({ mongoUrl: process.env.MONGO_URI }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     resave: false,
     saveUninitialized: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 15,
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax',
     }
 }));
 
