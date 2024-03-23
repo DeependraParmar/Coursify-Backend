@@ -120,7 +120,7 @@ export const htmlToPdf = catchAsyncError(async (req, res, next) => {
 
     const receiptPath = path.join(process.cwd(), "views", "receipt.ejs");
     const receipt = await ejs.renderFile(receiptPath, {
-        transaction_date: payment.transaction_date.toLocaleString().toString(),
+        transaction_date: new Date(payment.transaction_date).toDateString().toString(),
         transaction_id: payment.razorpay_payment_id,
         invoice_id: payment.invoice_no,
         username: payment.user.name,
