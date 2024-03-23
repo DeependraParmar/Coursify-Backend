@@ -4,10 +4,8 @@ import cors from "cors";
 import { config } from "dotenv";
 import express from "express";
 import session from "express-session";
-import passport from "passport";
 import path from "path";
 import ErrorMiddleware from "./middlewares/ErrorMiddleware.js";
-import fs from "fs";
 
 // creating the express application here 
 const app = express();
@@ -51,15 +49,12 @@ app.use(session({
 
 // using the middlewares in order to help passport 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.authenticate("session"));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors({
-    origin: ["http://localhost:5173", "https://coursify-frontend.vercel.app"],
+    origin: [process.env.PRIMARY_FRONTEND_URL, process.env.FRONTEND_URL],
     credentials: true
 }));
-app.use(cookieParser());
 
 
 
