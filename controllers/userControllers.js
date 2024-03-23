@@ -500,11 +500,8 @@ export const getCreatedCourses = catchAsyncError(async (req, res, next) => {
 
 // logging the user out
 export const logout = catchAsyncError((req, res, next) => {
-    res.status(200).cookie("connect.sid", null, {
-        expires: new Date(Date.now()),
-        httpOnly: true,
-        secure: true,
-    }).json({
+    res.clearCookie("connect.sid");
+    res.status(200).json({
         success: true,
         message: "Logged Out Successfully"
     })
