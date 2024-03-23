@@ -38,11 +38,6 @@ app.get("/password", (req, res) => {
 })
 
 
-app.get("/receipt", (req,res) => {
-    res.sendFile(path.join(process.cwd(), "/index.html"));
-});
-
-
 // using the express session middleware here 
 app.use(session({
     secret: process.env.SESSION_SECRET,

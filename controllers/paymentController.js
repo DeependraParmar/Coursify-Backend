@@ -3,6 +3,8 @@ import User from "../models/User.js";
 import { instance } from "../server.js"
 import crypto from "crypto";
 import { Payment } from "../models/Payment.js"
+import { catchAsyncError } from "../middlewares/catchAsyncError.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
 
 export const checkOut = async(req,res,next) => {
     const options = {
@@ -61,6 +63,21 @@ export const paymentVerification = async (req, res, next) => {
         return res.redirect(`${process.env.FRONTEND_URL}/paymentfailed?reference=${razorpay_payment_id}`)
     }
 }
+
+export const isValidPayment = catchAsyncError(async (req, res, next) => {
+    const { id } = req.params;
+
+    const payment = await Payment.findOne({ razorpay_payment_id: id });
+
+    if (!payment) {
+        return next(new ErrorHandler("Invalid Payment", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Valid Transaction"
+    });
+});
 
 export const getRazorpayKey = async(req,res,next) => {
     res.status(200).json({
