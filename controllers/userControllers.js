@@ -504,7 +504,6 @@ export const logout = catchAsyncError((req, res, next) => {
         expires: new Date(Date.now()),
         httpOnly: true,
         secure: true,
-        sameSite: "none",
     }).json({
         success: true,
         message: "Logged Out Successfully"
