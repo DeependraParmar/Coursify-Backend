@@ -43,11 +43,12 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 15
+        maxAge: 1000 * 60 * 60 * 24 * 15,
+        httpOnly: true,
+        secure: true,
     }
 }));
 
-// using the middlewares in order to help passport 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
