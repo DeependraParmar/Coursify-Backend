@@ -57,9 +57,6 @@ app.use(session({
     }
 }));
 
-
-
-
 // importing the routers here 
 import courseRouter from "./routes/courseRoutes.js";
 import otherRouter from "./routes/otherRoutes.js";
