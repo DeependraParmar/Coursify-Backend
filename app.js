@@ -37,6 +37,13 @@ app.get("/password", (req, res) => {
 
 
 // using the express session middleware here 
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+    origin: [process.env.PRIMARY_FRONTEND_URL, process.env.FRONTEND_URL],
+    credentials: true
+}));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
@@ -46,17 +53,10 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 15,
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Lax',
+        sameSite: 'none',
     }
 }));
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-    origin: [process.env.PRIMARY_FRONTEND_URL, process.env.FRONTEND_URL],
-    credentials: true
-}));
 
 
 

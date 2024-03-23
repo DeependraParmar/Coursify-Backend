@@ -502,8 +502,8 @@ export const getCreatedCourses = catchAsyncError(async (req, res, next) => {
 // Logout route
 export const logout = catchAsyncError((req, res, next) => {
     res.clearCookie("connect.sid", {
-        secure: process.env.NODE_ENV === 'production', // Only secure in production
-        sameSite: 'Lax', // Or 'Strict' as needed
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none',
     });
     req.session.destroy(() => {
         res.status(200).json({
