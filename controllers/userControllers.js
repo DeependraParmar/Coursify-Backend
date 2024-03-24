@@ -443,6 +443,16 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
     }
 
     try {
+        const review = await Review.findOne({email: user.email });
+
+        if(review){
+            return next(new ErrorHandler("Review is already submitted and is under verification..", 400));
+        }
+
+        if(user.isVerifiedInstructor){
+            return next(new ErrorHandler("You are already a verified instructor", 400));
+        }
+
         const fileUri = getDataUri(file);
         const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
