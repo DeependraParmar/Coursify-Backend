@@ -36,6 +36,7 @@ nodeCron.schedule("0 0 0 1 * *", async() => {
         console.log(error);
     }
 });
+
 // nodeCron.schedule('*/14 * * * *', async() => {
 //     try{
 //         const {data} = await axios.get(process.env.SERVER_URL);

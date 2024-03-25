@@ -1,5 +1,5 @@
 import express from "express";
-import { changeRole, contact, getCoursesForAdminDashboard, getInstructorForAdminDashboard, getInstructorStats, getPublicProfile, getTransactionsForAdminDashboard, getUserForAdminDashboard } from "../controllers/otherControllers.js";
+import { contact, getCoursesForAdminDashboard, getInstructorForAdminDashboard, getInstructorStats, getPublicProfile, getTransactionsForAdminDashboard, getUserForAdminDashboard } from "../controllers/otherControllers.js";
 import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middlewares/auth.js";
 
 const router = express.Router();

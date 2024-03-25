@@ -88,31 +88,6 @@ const schema = new mongoose.Schema({
         type: String,
         validate: [validator.isURL, "Please provide a valid URL"]
     },
-    notifications: [
-        {
-            emoji: {
-                type: String,
-                default: "😍"
-            },
-            title: {
-                type: String,
-                default: "Welcome to Coursify🌟✨🔥"
-            },
-            description: {
-                type: String,
-                default: "Learn from the masters and upskill yourself"
-            },
-            madeFor: {
-                type: String,
-                enum: ["user", "instructor"],
-                default: "user",
-            },
-            generatedOn: {
-                type: Date,
-                default: Date.now
-            }
-        }
-    ],
     createdAt: {
         type: Date,
         default: Date.now,

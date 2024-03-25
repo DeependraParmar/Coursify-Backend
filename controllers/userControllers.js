@@ -84,11 +84,7 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
     await PreRegister.deleteOne({ email });
 
     user = await User.create({
-        name, email, password,
-        avatar: {
-            public_id: "default",
-            url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1710840543/def_user_qsxwsn.jpg"
-        }
+        name, email, password
     });
 
     const emailTemplatePath = path.join(process.cwd(), "views", "welcome.ejs");

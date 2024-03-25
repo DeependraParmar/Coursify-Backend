@@ -19,12 +19,7 @@ export const getReviewRequests = catchAsyncError( async(req,res,next) => {
 });
 
 export const approveInstructorRequest = catchAsyncError( async(req,res,next) => {
-    const {emoji,title,description,madeFor} = req.body;
     const reviewRequestId = req.params.id;
-
-    if(!emoji || !title || !description || !madeFor){
-        return next(new ErrorHandler("All Fields are required", 400));
-    }
 
     if(!reviewRequestId){
         return next(new ErrorHandler("Invalid Review Request", 400));
@@ -32,11 +27,6 @@ export const approveInstructorRequest = catchAsyncError( async(req,res,next) => 
 
     const request = await Review.findById(reviewRequestId);
     const user = await User.find({email: request.email});
-
-    user[0].notifications.push({
-        emoji,title,description,madeFor,
-        generatedOn: Date.now(),
-    })
 
     user[0].isVerifiedInstructor = true;
 
@@ -57,12 +47,7 @@ export const approveInstructorRequest = catchAsyncError( async(req,res,next) => 
 
 // for discarding the instructor's request for review.
 export const discardInstructorRequest = catchAsyncError( async(req,res,next) => {
-    const {emoji,title,description,madeFor} = req.body;
     const reviewRequestId = req.params.id;
-
-    if(!emoji || !title || !description || !madeFor){
-        return next(new ErrorHandler("All Fields are required", 400));
-    }
 
     if(!reviewRequestId){
         return next(new ErrorHandler("Invalid Review Request", 400));
@@ -70,11 +55,6 @@ export const discardInstructorRequest = catchAsyncError( async(req,res,next) => 
 
     const request = await Review.findById(reviewRequestId);
     const user = await User.find({email: request.email});
-
-    user[0].notifications.push({
-        emoji,title,description,madeFor,
-        generatedOn: Date.now(),
-    })
 
     user[0].isVerifiedInstructor = false;
 
