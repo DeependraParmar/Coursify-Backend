@@ -1,5 +1,5 @@
 import express from "express";
-import { changeRole, contact, getCoursesForAdminDashboard, getInstructorForAdminDashboard, getInstructorStats, getPublicProfile, getUserForAdminDashboard } from "../controllers/otherControllers.js";
+import { changeRole, contact, getCoursesForAdminDashboard, getInstructorForAdminDashboard, getInstructorStats, getPublicProfile, getTransactionsForAdminDashboard, getUserForAdminDashboard } from "../controllers/otherControllers.js";
 import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middlewares/auth.js";
 
 const router = express.Router();
@@ -20,5 +20,6 @@ router.get("/instructor/dashboard", isAuthenticated, isVerifiedInstructor, getIn
 router.get('/admin/users', isAuthenticated, isVerifiedAdmin, getUserForAdminDashboard);
 router.get("/admin/instructors", isAuthenticated, isVerifiedAdmin, getInstructorForAdminDashboard);
 router.get("/admin/courses/all", isAuthenticated, isVerifiedAdmin, getCoursesForAdminDashboard);
+router.get("/admin/transactions", isAuthenticated, isVerifiedAdmin, getTransactionsForAdminDashboard);
 
 export default router;

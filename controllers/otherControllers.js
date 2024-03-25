@@ -1,5 +1,6 @@
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import { Course } from "../models/Course.js";
+import { Payment } from "../models/Payment.js";
 import { InstructorStats } from "../models/InstructorStats.js";
 import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
@@ -171,4 +172,17 @@ export const getCoursesForAdminDashboard = catchAsyncError( async(req, res, next
         success: true,
         courses
     })
-})
+});
+
+export const getTransactionsForAdminDashboard = catchAsyncError(async (req, res, next) => {
+    const transactions = await Payment.find({}).select(['razorpay_payment_id','transaction_date','transaction_amount','user','course']);
+
+    if(!transactions){
+        return next(new ErrorHandler("No Transactions Found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        transactions
+    })
+});
