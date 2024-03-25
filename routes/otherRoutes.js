@@ -4,9 +4,6 @@ import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middl
 
 const router = express.Router();
 
-// for changing the role of a user between user and instructor 
-router.get("/changeRole", isAuthenticated, changeRole);
-
 // sending the message of the user to my mail
 router.post("/contact", contact);
 

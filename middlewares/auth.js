@@ -17,7 +17,7 @@ export const isAuthenticated = async(req, res, next) => {
 export const isVerifiedInstructor = async(req,res,next) => {
     const user = await User.findById(req.user._id);
 
-    if (!user.isVerifiedInstructor || !user.role == "instructor"){
+    if (!user.isVerifiedInstructor){
         return next(new ErrorHandler("Unauthorised Access: Instructor Privileges not available",400));
     }
 
@@ -26,9 +26,8 @@ export const isVerifiedInstructor = async(req,res,next) => {
 
 export const isVerifiedAdmin = async(req,res,next) => {
     const user = await User.findById(req.user._id);
-    const verifiedAdmin = user.isVerifiedAdmin && user.role == "admin";
 
-    if(!verifiedAdmin){
+    if(!user.isVerifiedAdmin){
         return next(new ErrorHandler("Unauthorised Access: Admin privileges not available", 400))
     }
     
