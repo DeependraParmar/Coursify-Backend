@@ -27,13 +27,6 @@ const schema = new mongoose.Schema({
         minLength: [6, "Password must be at least 6 characters long"],
         select: false,
     },
-    role: {
-        type: String,
-        enum: {
-            values: ["user", "admin", "instructor"]
-        },
-        default: "user"
-    },
     isVerifiedInstructor: {
         type: Boolean,
         default: false,
