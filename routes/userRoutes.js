@@ -30,6 +30,7 @@ router.post("/be-an-instructor", isAuthenticated, singleUpload, registerAsInstru
 router.get("/instructor/my-courses", isAuthenticated, isVerifiedInstructor, getCreatedCourses);
 
 
+
 // route for logging the user out 
 router.get("/logout", logout);
 

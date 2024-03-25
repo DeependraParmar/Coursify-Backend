@@ -2,9 +2,11 @@ import cloudinary from "cloudinary";
 import crypto from "crypto";
 import ejs from "ejs";
 import path from "path";
+import puppeter from "puppeteer";
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import { Course } from "../models/Course.js";
 import { InstructorStats } from "../models/InstructorStats.js";
+import { Payment } from "../models/Payment.js";
 import { PreRegister } from "../models/PreRegister.js";
 import { Review } from "../models/Review.js";
 import User from "../models/User.js";
@@ -12,8 +14,6 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
 import { sendEmail } from "../utils/sendMail.js";
 import { sendToken } from "../utils/sendToken.js";
-import puppeter from "puppeteer";
-import { Payment } from "../models/Payment.js";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
@@ -227,8 +227,6 @@ export const getPublicProfile = catchAsyncError(async (req, res, next) => {
 export const updateProfile = catchAsyncError(async (req, res, next) => {
     const { name, email, about, phoneNumber, linkedin, twitter, github, facebook, website, youtube } = req.body;
     const user = await User.findById(req.user._id);
-
-    console.log(req.body);
 
     if (name) {
         user.name = name;
@@ -506,7 +504,7 @@ export const getCreatedCourses = catchAsyncError(async (req, res, next) => {
         success: true,
         myCourses
     })
-})
+});
 
 // logging the user out
 // Logout route

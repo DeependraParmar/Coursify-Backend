@@ -131,41 +131,44 @@ export const getInstructorStats = catchAsyncError(async (req, res, next) => {
 });
 
 
-// controller for getting the user and the instructor count 
-export const getAdminStatsCount = catchAsyncError( async(req,res,next) => {
-    const userCount = await User.countDocuments();
-    const instructorCount = await User.countDocuments({isVerifiedInstructor: true});
-    const coursesCount = await Course.countDocuments();
+// getting the admin's users list
+export const getUserForAdminDashboard = catchAsyncError(async (req, res, next) => {
+    const users = await User.find().select(['_id', 'name', 'email', 'avatar']);
 
-    res.status(200).json({
-        success: true,
-        userCount,
-        instructorCount,
-        coursesCount,
-    })
-});
-
-export const getAdminDashboardData = catchAsyncError( async(req,res,next) => {
-    const users = await User.find({isVerifiedInstructor: false, isVerifiedAdmin: false});
-    const instructors = await User.find({isVerifiedInstructor: true});
-
-    res.status(200).json({
-        success: true,
-        users,
-        instructors,
-    });
-});
-
-export const getTotalAdminStatEarning = catchAsyncError( async(req,res,next) => {
-    const courses = await Course.find({});
-    let totalEarning = 0;
-
-    for(let i=0; i<courses.length; i++){
-        totalEarning += (courses[i].totalPurchases * courses[i].price);
+    if (!users) {
+        return next(new ErrorHandler("No Users found", 404));
     }
 
     res.status(200).json({
         success: true,
-        totalEarning,
+        users
+    })
+});
+
+// getting the admin's users list
+export const getInstructorForAdminDashboard = catchAsyncError(async (req, res, next) => {
+    const instructors = await User.find({ isVerifiedInstructor: true }).select(['_id', 'name', 'email', 'avatar']);
+
+    if (!instructors) {
+        return next(new ErrorHandler("No Instructors found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        instructors
+    })
+});
+
+// getting the courses on admin dashboard 
+export const getCoursesForAdminDashboard = catchAsyncError( async(req, res, next) => {
+    const courses = await Course.find({});
+
+    if(!courses){
+        return next(new ErrorHandler("No Courses Found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        courses
     })
 })
