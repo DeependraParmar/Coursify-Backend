@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { Types } from "mongoose"
 
 const schema = new mongoose.Schema({
     razorpay_order_id: {
@@ -54,6 +54,10 @@ const schema = new mongoose.Schema({
         price: {
             type: Number,
             required: true
+        },
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
         }
     }
 });

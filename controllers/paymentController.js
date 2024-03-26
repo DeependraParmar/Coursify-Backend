@@ -46,7 +46,8 @@ export const paymentVerification = async (req, res, next) => {
             course: {
                 name: course.title,
                 creator: course.createdBy,
-                price: course.price
+                price: course.price,
+                id: course._id
             },
         });
         user.courses.push({
