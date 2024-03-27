@@ -133,29 +133,29 @@ export const getUserForAdminDashboard = catchAsyncError(async (req, res, next) =
 
 // getting the admin's users list
 export const getInstructorForAdminDashboard = catchAsyncError(async (req, res, next) => {
-    const instructors = await User.find({ isVerifiedInstructor: true }).select(['_id', 'name', 'email', 'avatar']);
+    const users = await User.find({ isVerifiedInstructor: true }).select(['_id', 'name', 'email', 'avatar']);
 
-    if (!instructors) {
+    if (!users) {
         return next(new ErrorHandler("No Instructors found", 404));
     }
 
     res.status(200).json({
         success: true,
-        instructors
+        users
     })
 });
 
 // getting the admin's users list
 export const getAdminsForAdminDashboard = catchAsyncError(async (req, res, next) => {
-    const admins = await User.find({ isVerifiedAdmin: true }).select(['_id', 'name', 'email', 'avatar']);
+    const users = await User.find({ isVerifiedAdmin: true }).select(['_id', 'name', 'email', 'avatar']);
 
-    if (!admins) {
+    if (!users) {
         return next(new ErrorHandler("No Instructors found", 404));
     }
 
     res.status(200).json({
         success: true,
-        admins
+        users
     })
 });
 
