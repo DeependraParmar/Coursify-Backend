@@ -146,29 +146,18 @@ export const getInstructorForAdminDashboard = catchAsyncError(async (req, res, n
 });
 
 // getting the courses on admin dashboard 
-export const getCoursesForAdminDashboard = catchAsyncError( async(req, res, next) => {
-    const keyword = req.query.keyword || "";
-    const category = req.query.category || "";
+export const getSpecificCourseForAdminDashboard = catchAsyncError( async(req, res, next) => {
+    const { id } = req.params;
+    const course = await Course.findById(id);
 
-    const courses = await Course.find({
-        title: {
-            $regex: keyword,
-            $options: "i"
-        },
-        category: {
-            $regex: category,
-            $options: "i"
-        }
-    });
-
-    if(!courses){
-        return next(new ErrorHandler("No Courses Found", 404));
+    if (!course) {
+        return next(new ErrorHandler("Course Not Found", 404));
     }
 
     res.status(200).json({
         success: true,
-        courses
-    })
+        course
+    });
 });
 
 export const getTransactionsForAdminDashboard = catchAsyncError(async (req, res, next) => {
