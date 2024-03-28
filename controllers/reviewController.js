@@ -56,6 +56,10 @@ export const discardInstructorRequest = catchAsyncError( async(req,res,next) => 
     const request = await Review.findById(reviewRequestId);
     const user = await User.find({email: request.email});
 
+    if(!user){
+        return next(new ErrorHandler("Requesting User not found", 400));
+    }
+
     user[0].isVerifiedInstructor = false;
 
     await user[0].save();
