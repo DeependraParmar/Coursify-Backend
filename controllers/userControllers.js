@@ -56,7 +56,7 @@ export const register = catchAsyncError(async (req, res, next) => {
         html: emailTemplate,
     }
 
-    // await sendEmail(mailOptions);
+    await sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
@@ -81,7 +81,6 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Invalid OTP", 400));
     }
 
-    // deleting the temporary user stored in pre-register
     await PreRegister.deleteOne({ email });
 
     user = await User.create({
