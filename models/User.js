@@ -21,7 +21,6 @@ const schema = new mongoose.Schema({
         type: Number,
         minLength: [10, "Phone Number must be 10 digit long"],
         maxLength: [10, "Phone Number must be 10 digit long"],
-        unique: true,
     },
     password: {
         type: String,
