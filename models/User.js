@@ -21,6 +21,7 @@ const schema = new mongoose.Schema({
         type: Number,
         minLength: [10, "Phone Number must be 10 digit long"],
         maxLength: [10, "Phone Number must be 10 digit long"],
+        unique: true,
     },
     password: {
         type: String,
@@ -38,9 +39,11 @@ const schema = new mongoose.Schema({
     avatar: {
         public_id: {
             type: String,
+            required: true,
         },
         url: {
             type: String,
+            required: true,
         },
     },
     courses: [

@@ -29,7 +29,8 @@ export const register = catchAsyncError(async (req, res, next) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000);
 
-    user = await PreRegister.findOne({ email}); 
+    user = null;
+    user = await PreRegister.findOne({ email }); 
 
     if(user){
         user.name = name;
@@ -55,7 +56,7 @@ export const register = catchAsyncError(async (req, res, next) => {
         html: emailTemplate,
     }
 
-    await sendEmail(mailOptions);
+    // await sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
@@ -84,7 +85,11 @@ export const verifyRegister = catchAsyncError(async (req, res, next) => {
     await PreRegister.deleteOne({ email });
 
     user = await User.create({
-        name, email, password
+        name, email, password,
+        avatar: {
+            public_id: "default",
+            url: "https://res.cloudinary.com/dmmrtqe8q/image/upload/v1711593819/user.png"
+        }
     });
 
     const emailTemplatePath = path.join(process.cwd(), "views", "welcome.ejs");
@@ -272,7 +277,9 @@ export const updateProfilePicture = catchAsyncError(async (req, res, send) => {
     const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
     //destroying the older picture
-    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    if(user.avatar.public_id !== "default"){
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+    }
 
     // updating the profile picture 
     user.avatar = {
@@ -451,6 +458,7 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
         const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
         await Review.create({
+            requesteeId: user._id,
             name: user.name,
             email: user.email,
             phoneNumber,
@@ -468,7 +476,6 @@ export const registerAsInstructor = catchAsyncError(async (req, res, next) => {
             message: "Your Request is successfully submitted for Review. You will be notified within 1-3 working days.",
         });
     } catch (error) {
-        // Handle any errors that might occur during the process
         return next(new ErrorHandler("Error submitting review request", 500));
     }
 });
