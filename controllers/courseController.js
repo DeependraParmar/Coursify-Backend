@@ -1,10 +1,11 @@
+import cloudinary from "cloudinary";
 import { catchAsyncError } from "../middlewares/catchAsyncError.js";
 import { Course } from "../models/Course.js";
 import { InstructorStats } from "../models/InstructorStats.js";
 import User from "../models/User.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
-import cloudinary from "cloudinary"
+import mongoose from "mongoose";
 
 
 // controller for getting all the courses 
@@ -237,6 +238,10 @@ export const getCourseStatus = catchAsyncError(async(req,res,next) => {
 
     if(!id){
         return next(new ErrorHandler("Course Not Found", 404));
+    }
+
+    if(mongoose.isValidObjectId(id) == false){
+        return next(new ErrorHandler("Invalid Course ID", 411));
     }
 
     let isFound = false;
