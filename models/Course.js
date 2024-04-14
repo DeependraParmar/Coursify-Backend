@@ -61,6 +61,7 @@ const schema = new mongoose.Schema({
     },
     category: {
         type: String,
+        enum: ['web development','app development', 'data science', 'artificial intelligence', 'machine learning', 'blockchain', 'cyber security', 'cloud computing', 'other'], 
         required: [true,"Category is required"],
     },
     createdBy: {
