@@ -496,15 +496,15 @@ export const getCreatedCourses = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.user._id);
     const userId = user._id;
 
-    const myCourses = await Course.find({ createdBy: userId });
+    const mycourses = await Course.find({ createdBy: userId });
 
-    if (!myCourses) {
+    if (!mycourses) {
         return next(new ErrorHandler("No Courses created yet", 400));
     }
 
     res.status(200).json({
         success: true,
-        myCourses
+        mycourses
     })
 });
 
