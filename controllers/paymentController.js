@@ -40,7 +40,7 @@ export const paymentVerification = async (req, res, next) => {
             user: {
                 name: user.name,
                 email: user.email,
-                phone: user.phoneNumber
+                phone: user.phoneNumber || "Not Provided"
             },
             transaction_amount: course.price,
             course: {
