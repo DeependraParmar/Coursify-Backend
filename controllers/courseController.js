@@ -193,14 +193,14 @@ export const deleteLecture = catchAsyncError(async(req,res,next) => {
 
 //controller for editing the information related to the course
 export const editCourseDetails = catchAsyncError( async(req,res,next) => {
-    const {id} = req.params.id;
+    const {id} = req.params;
     const course = await Course.findById(id);
 
     if(!course){
         return next(new ErrorHandler("Course Not Found", 404));
     }
 
-    const {title, description, category} = req.body;
+    const {title, description, category, price} = req.body;
     const file = req.file;
     const fileUri = getDataUri(file);
     const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
@@ -215,6 +215,9 @@ export const editCourseDetails = catchAsyncError( async(req,res,next) => {
     }
     if(category){
         course.category = category;
+    }
+    if(price){
+        course.price = price;
     }
     if(file){
         course.poster = {
