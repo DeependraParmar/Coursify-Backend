@@ -3,6 +3,9 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 import getDataUri from "../utils/dataUri.js";
 import cloudinary from "cloudinary";
 import { Dropbox } from "../models/Dropbox.js";
+import { Notebook } from "../models/Notebook.js";
+
+// dropbox api's
 
 export const uploadToDropbox = catchAsyncError( async(req,res, next) => {
     const file = req.file;
@@ -53,5 +56,50 @@ export const deleteFromDropbox = catchAsyncError(async(req,res,next) => {
     res.status(200).json({
         success: true,
         message: "Image deleted successfully",
+    });
+});
+
+
+// notebook apis 
+export const addNote = catchAsyncError( async(req, res, next) => {
+    const {title, description} = req.body;
+
+    if (!title || !description){
+        return next(new ErrorHandler("Please enter title and body", 400));
+    }
+
+    await Notebook.create({ title, description });
+
+    res.status(200).json({
+        success: true,
+        message: "Note added successfully"
+    });
+})
+
+export const getNotes = catchAsyncError(async(req,res,next) => {
+    const notes = await Notebook.find({}).sort({ KEY: -1});
+
+    if(!notes){
+        return next(new ErrorHandler("No Notes Found", 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        notes
+    });
+});
+
+export const deleteNote = catchAsyncError(async(req,res,next) => {
+    const note = await Notebook.findById(req.params.id);
+
+    if(!note){
+        return next(new ErrorHandler("Note Not Found", 404));
+    }
+
+    await note.deleteOne();
+
+    res.status(200).json({
+        success: true,
+        message: "Note deleted successfully",
     });
 });
