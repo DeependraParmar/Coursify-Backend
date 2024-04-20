@@ -63,12 +63,14 @@ import otherRouter from "./routes/otherRoutes.js";
 import paymentRouter from "./routes/paymentRoutes.js";
 import reviewRouter from "./routes/reviewRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import dropboxRouter from "./routes/dropboxRoutes.js";
 
 app.use("/api/v1",userRouter);
 app.use("/api/v1",courseRouter);
 app.use("/api/v1", otherRouter);
 app.use("/api/v1", reviewRouter);
 app.use("/api/v1", paymentRouter);
+app.use("/api/v1", dropboxRouter);
 
 app.get("/api/v1/getkey", (req,res) => {
     res.status(200).json({

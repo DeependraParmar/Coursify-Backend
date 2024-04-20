@@ -11,16 +11,21 @@ const schema = new mongoose.Schema({
         type: String,
         required: [true,"Description is required"],
         minLength: [10,"Description must be at least 10 characters long"],
+        maxLength: [1000,"Description must be at most 1000 characters long"],
     },
     lectures: [
         {
             title: {
                 type: String,
                 required: [true,"Lecture title is required"],
+                minLength: [10,"Lecture title must be at least 10 characters long"],
+                maxLength: [100,"Lecture title must be at most 100 characters long"],
             },
             description: {
                 type: String,
                 required: [true,"Lecture description is required"],
+                minLength: [10,"Lecture description must be at least 10 characters long"],
+                maxLength: [1000,"Lecture description must be at most 1000 characters long"],
             },
             video: {
                 public_id: {
@@ -31,10 +36,7 @@ const schema = new mongoose.Schema({
                     type: String,
                     required: true,
                 }
-            },
-            notes: {
-                type: String,
-            },
+            }
         }
     ],
     price: {

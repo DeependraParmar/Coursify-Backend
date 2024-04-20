@@ -102,7 +102,7 @@ export const getCourseLectures = catchAsyncError(async(req,res,next) => {
 // controller for adding a new lecture to the course 
 export const addNewLecture = catchAsyncError(async(req,res,next) => {
     const course = await Course.findById(req.params.id);
-    const {title, description, notes} = req.body;
+    const {title, description} = req.body;
     const file = req.file;
     
     if(!course){
@@ -119,10 +119,10 @@ export const addNewLecture = catchAsyncError(async(req,res,next) => {
     });
     
     course.lectures.push({
-        title,description,notes,
+        title,description,
         video: {
             public_id: cloud.public_id,
-            url: cloud.secure_url
+            url: cloud.secure_url,
         }
     });
     course.numOfVideos = course.lectures.length;
