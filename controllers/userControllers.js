@@ -17,15 +17,31 @@ import { sendToken } from "../utils/sendToken.js";
 
 // controller to register a user 
 export const register = catchAsyncError(async (req, res, next) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, token } = req.body;
 
-    if (!name || !email || !password)
+    if (!name || !email || !password || !token)
         return (next(new ErrorHandler("All the fields are required", 400)));
 
     let user = await User.findOne({ email });
 
     if (user)
         return next(new ErrorHandler("User Already Exists. Please go to Login", 409));
+
+    const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+    let formData = new FormData();
+    formData.append('secret', process.env.CLOUDFLARE_SECRET_KEY);
+    formData.append('response', token);
+
+    const response = await fetch(url, {
+        body: formData,
+        method: 'POST'
+    });
+
+    const challengeSucceeded = await response.json().success;
+
+    if (!challengeSucceeded) {
+        return next(new ErrorHandler("Failed to verify captcha", 400));
+    }
 
     const otp = Math.floor(100000 + Math.random() * 900000);
 
@@ -156,13 +172,29 @@ export const htmlToPdf = catchAsyncError(async (req, res, next) => {
 
 // controller to login a  user 
 export const login = catchAsyncError(async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password, token } = req.body;
 
-    if (!email || !password) {
+    if (!email || !password || !token) {
         return next(new ErrorHandler("All Fields are Required", 400));
     }
 
     const user = await User.findOne({ email }).select("+password");
+
+    const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+    let formData = new FormData();
+    formData.append('secret', process.env.CLOUDFLARE_SECRET_KEY);
+    formData.append('response', token);
+
+    const response = await fetch(url, {
+        body: formData,
+        method: 'POST'
+    });
+
+    const challengeSucceeded = await response.json().success;
+
+    if (!challengeSucceeded) {
+        return next(new ErrorHandler("Failed to verify captcha", 400));
+    }
 
     if (!user) {
         return next(new ErrorHandler("User Doesn't Exist. Please Register First", 401));
