@@ -28,16 +28,17 @@ export const register = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("User Already Exists. Please go to Login", 409));
 
     const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+    
     let formData = new FormData();
     formData.append('secret', process.env.CLOUDFLARE_SECRET_KEY);
     formData.append('response', token);
 
-    const response = await fetch(url, {
+    const result = await fetch(url, {
         body: formData,
         method: 'POST'
     });
 
-    const challengeSucceeded = await response.json().success;
+    const challengeSucceeded = (await result.json()).success;
 
     if (!challengeSucceeded) {
         return next(new ErrorHandler("Failed to verify captcha", 400));
@@ -185,15 +186,15 @@ export const login = catchAsyncError(async (req, res, next) => {
     formData.append('secret', process.env.CLOUDFLARE_SECRET_KEY);
     formData.append('response', token);
 
-    const response = await fetch(url, {
+    const result = await fetch(url, {
         body: formData,
         method: 'POST'
     });
 
-    const challengeSucceeded = await response.json().success;
+    const challengeSucceeded = (await result.json()).success;
 
     if (!challengeSucceeded) {
-        return next(new ErrorHandler("Failed to verify captcha", 400));
+        return next(new ErrorHandler("Failed to verify captcha", 403));
     }
 
     if (!user) {
