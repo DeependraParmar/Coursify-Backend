@@ -14,11 +14,14 @@ export const contact = catchAsyncError( async(req,res,next) => {
         return next(new ErrorHandler("All fields are required", 400));
     }
 
-    const to = process.env.MY_MAIL;
-    const subject = "Contact from Coursify";
-    const text = `Hello, I am ${name}, my email is ${email}. ${message}`
+    let mailOptions = {
+        to: process.env.MY_MAIL,
+        from: `Coursify🚀 ${process.env.MY_MAIL}`,
+        subject: "Contact from Coursify 📞🤙",
+        text: `Name: ${name} \n\n Email: ${email} \n\n Message: ${message}`,
+    }
 
-    await sendEmail(to,subject,text);
+    await sendEmail(mailOptions);
 
     res.status(200).json({
         success: true,
