@@ -8,10 +8,27 @@ import { sendEmail } from "../utils/sendMail.js";
 
 
 export const contact = catchAsyncError( async(req,res,next) => {
-    const {name, email, message} = req.body;
+    const {name, email, message, token} = req.body;
 
-    if(!name || !email || !message){
+    if(!name || !email || !message || !token){
         return next(new ErrorHandler("All fields are required", 400));
+    }
+
+    const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
+    let formData = new FormData();
+    formData.append('secret', process.env.CLOUDFLARE_SECRET_KEY);
+    formData.append('response', token);
+
+    const result = await fetch(url, {
+        body: formData,
+        method: 'POST'
+    });
+
+    const challengeSucceeded = (await result.json()).success;
+
+    if (!challengeSucceeded) {
+        return next(new ErrorHandler("Failed to verify captcha", 400));
     }
 
     let mailOptions = {
