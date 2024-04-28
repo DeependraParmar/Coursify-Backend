@@ -101,3 +101,26 @@ export const deleteFreeCourse = catchAsyncError( async(req, res, next) => {
         message: "Course deleted successfully",
     });
 });
+
+
+export const addLectureToFreeCourse = catchAsyncError( async(req, res, next) => {
+    const { title, description, url} = req.body;
+    const course = await Youtube.findById(req.params.id);
+
+    if(!course)
+        return next(new ErrorHandler("Course not found", 404));
+
+    if(!title || !description || !url)
+        return next(new ErrorHandler("Please enter all the fields", 400));
+
+    course.lectures.push({
+        title, description, url,
+    });
+
+    await course.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Lecture added successfully",
+    });
+});
