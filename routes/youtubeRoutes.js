@@ -11,6 +11,4 @@ router.route('/free-course/:id').get(getSpecificFreeCourse).post(isAuthenticated
 
 router.route('/free-course/:id/:lectureid').put(isAuthenticated, isVerifiedAdmin, editSpecificCourseLecture).delete(isAuthenticated, isVerifiedAdmin, deleteLecture);
 
-
-
 export default router;
