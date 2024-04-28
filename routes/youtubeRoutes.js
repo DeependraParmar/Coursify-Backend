@@ -1,5 +1,5 @@
 import express from "express";
-import { addLectureToFreeCourse, createFreeCourse, deleteFreeCourse, editFreeCourse, editSpecificCourseLecture, getFreeCourses, getSpecificFreeCourse } from "../controllers/youtubeControllers.js";
+import { addLectureToFreeCourse, createFreeCourse, deleteFreeCourse, deleteLecture, editFreeCourse, editSpecificCourseLecture, getFreeCourses, getSpecificFreeCourse } from "../controllers/youtubeControllers.js";
 import { isAuthenticated, isVerifiedAdmin } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -9,7 +9,7 @@ router.route('/free-course').get(getFreeCourses).post(isAuthenticated, isVerifie
 
 router.route('/free-course/:id').get(getSpecificFreeCourse).post(isAuthenticated, isVerifiedAdmin, addLectureToFreeCourse).put(isAuthenticated, isVerifiedAdmin, singleUpload, editFreeCourse).delete(isAuthenticated, isVerifiedAdmin, deleteFreeCourse);
 
-router.route('/free-course/:id/:lectureid').put(isAuthenticated, isVerifiedAdmin, editSpecificCourseLecture);
+router.route('/free-course/:id/:lectureid').put(isAuthenticated, isVerifiedAdmin, editSpecificCourseLecture).delete(isAuthenticated, isVerifiedAdmin, deleteLecture);
 
 
 

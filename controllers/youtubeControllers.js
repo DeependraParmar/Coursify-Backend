@@ -157,17 +157,12 @@ export const editSpecificCourseLecture = catchAsyncError( async(req, res, next) 
 
 export const deleteLecture = catchAsyncError( async(req, res, next) => {
     const {id, lectureid} = req.params;
-    const course = await Youtube.findById({id});
+    const course = await Youtube.findById(id);
 
     if(!course)
         return next(new ErrorHandler("Course not found", 404));
 
-    const lecture = course.lectures.id(lectureid);
-
-    if(!lecture)
-        return next(new ErrorHandler("Lecture not found", 404));
-
-    await lecture.remove();
+    course.lectures = course.lectures.filter(lecture => lecture._id.toString() !== lectureid.toString());
 
     await course.save();
 
