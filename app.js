@@ -65,6 +65,7 @@ import reviewRouter from "./routes/reviewRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import dropboxRouter from "./routes/dropboxRoutes.js";
 import blogRouter from "./routes/blogRoutes.js";
+import youtubeRouter from "./routes/youtubeRoutes.js";
 
 app.use("/api/v1",userRouter);
 app.use("/api/v1",courseRouter);
@@ -73,6 +74,7 @@ app.use("/api/v1", reviewRouter);
 app.use("/api/v1", paymentRouter);
 app.use("/api/v1", dropboxRouter);
 app.use("/api/v1", blogRouter);
+app.use("/api/v1", youtubeRouter);
 
 app.get("/api/v1/getkey", (req,res) => {
     res.status(200).json({
