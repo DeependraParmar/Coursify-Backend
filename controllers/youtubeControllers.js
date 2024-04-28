@@ -82,7 +82,7 @@ export const deleteFreeCourse = catchAsyncError( async(req, res, next) => {
         return next(new ErrorHandler("Course not found", 404));
 
     await cloudinary.v2.uploader.destroy(course.poster.public_id);
-    await course.remove();
+    await course.deleteOne();
 
     res.status(200).json({
         success: true,
