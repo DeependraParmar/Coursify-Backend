@@ -124,3 +124,55 @@ export const addLectureToFreeCourse = catchAsyncError( async(req, res, next) => 
         message: "Lecture added successfully",
     });
 });
+
+
+export const editSpecificCourseLecture = catchAsyncError( async(req, res, next) => {
+    const { title, description, url} = req.body;
+    const course = await Youtube.findById(req.params.id);
+
+    if(!course)
+        return next(new ErrorHandler("Course not found", 404));
+
+    const lecture = course.lectures.id(req.params.lectureid);
+
+    if(!lecture)
+        return next(new ErrorHandler("Lecture not found", 404));
+
+    if(title)
+        lecture.title = title;
+
+    if(description)
+        lecture.description = description;
+
+    if(url)
+        lecture.url = url;
+
+    await course.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Lecture updated successfully",
+    });
+});
+
+export const deleteLecture = catchAsyncError( async(req, res, next) => {
+    const {id, lectureid} = req.params;
+    const course = await Youtube.findById({id});
+
+    if(!course)
+        return next(new ErrorHandler("Course not found", 404));
+
+    const lecture = course.lectures.id(lectureid);
+
+    if(!lecture)
+        return next(new ErrorHandler("Lecture not found", 404));
+
+    await lecture.remove();
+
+    await course.save();
+
+    res.status(200).json({
+        success: true,
+        message: "Lecture deleted successfully",
+    });
+})
