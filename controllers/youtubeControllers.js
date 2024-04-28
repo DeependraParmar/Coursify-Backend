@@ -17,6 +17,18 @@ export const getFreeCourses = catchAsyncError( async(req, res, next) => {
     });
 });
 
+export const getSpecificFreeCourse = catchAsyncError( async(req, res, next) => {
+    const course = await Youtube.findById(req.params.id);
+
+    if(!course)
+        return next(new ErrorHandler("Course not found", 404));
+
+    res.status(200).json({
+        success: true,
+        course
+    });
+});
+
 export const createFreeCourse = catchAsyncError( async(req, res, next) => {
     const { title, description} = req.body;
     const file = req.file;
