@@ -105,15 +105,23 @@ export const deleteFreeCourse = catchAsyncError( async(req, res, next) => {
 
 export const addLectureToFreeCourse = catchAsyncError( async(req, res, next) => {
     const { title, description, url} = req.body;
+    const file = req.file;
     const course = await Youtube.findById(req.params.id);
 
     if(!course)
         return next(new ErrorHandler("Course not found", 404));
 
-    if(!title || !description || !url)
+    if(!title || !description || !url || !file)
         return next(new ErrorHandler("Please enter all the fields", 400));
 
+    const fileUri = getDataUri(file);
+    const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
     course.lectures.push({
+        thumbnail: {
+            public_id: cloud.public_id,
+            url: cloud.secure_url,
+        },
         title, description, url,
     });
 
@@ -128,6 +136,7 @@ export const addLectureToFreeCourse = catchAsyncError( async(req, res, next) => 
 
 export const editSpecificCourseLecture = catchAsyncError( async(req, res, next) => {
     const { title, description, url} = req.body;
+    const file = req.file;
     const course = await Youtube.findById(req.params.id);
 
     if(!course)
@@ -138,6 +147,18 @@ export const editSpecificCourseLecture = catchAsyncError( async(req, res, next) 
     if(!lecture)
         return next(new ErrorHandler("Lecture not found", 404));
 
+    if(file){
+        await cloudinary.v2.uploader.destroy(lecture.thumbnail.public_id);
+        console.log('Previous One Deleted');
+        const fileUri = getDataUri(file);
+        const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
+
+        lecture.thumbnail = {
+            public_id: cloud.public_id,
+            url: cloud.secure_url,
+        }
+    }
+    
     if(title)
         lecture.title = title;
 
@@ -170,4 +191,4 @@ export const deleteLecture = catchAsyncError( async(req, res, next) => {
         success: true,
         message: "Lecture deleted successfully",
     });
-})
+});
