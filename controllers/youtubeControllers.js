@@ -133,6 +133,22 @@ export const addLectureToFreeCourse = catchAsyncError( async(req, res, next) => 
     });
 });
 
+export const getSpecificCourseLecture = catchAsyncError( async(req, res, next) => {
+    const course = await Youtube.findById(req.params.id);
+
+    if(!course)
+        return next(new ErrorHandler("Course Not Found", 404));
+    
+    const lecture = course.lectures.filter(lecture => lecture._id.toString() === req.params.lectureid.toString());
+    
+    if(lecture.length === 0)
+        return next(new ErrorHandler("Lecture Not Found", 404));
+
+    res.status(200).json({
+        success: true,
+        lecture: lecture[0]
+    });
+})
 
 export const editSpecificCourseLecture = catchAsyncError( async(req, res, next) => {
     const { title, description, url} = req.body;

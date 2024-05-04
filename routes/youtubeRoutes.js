@@ -1,5 +1,5 @@
 import express from "express";
-import { addLectureToFreeCourse, createFreeCourse, deleteFreeCourse, deleteLecture, editFreeCourse, editSpecificCourseLecture, getFreeCourses, getSpecificFreeCourse } from "../controllers/youtubeControllers.js";
+import { addLectureToFreeCourse, createFreeCourse, deleteFreeCourse, deleteLecture, editFreeCourse, editSpecificCourseLecture, getFreeCourses, getSpecificCourseLecture, getSpecificFreeCourse } from "../controllers/youtubeControllers.js";
 import { isAuthenticated, isVerifiedAdmin } from "../middlewares/auth.js";
 import singleUpload from "../middlewares/multer.js";
 
@@ -9,6 +9,6 @@ router.route('/free-course').get(getFreeCourses).post(isAuthenticated, isVerifie
 
 router.route('/free-course/:id').get(getSpecificFreeCourse).post(isAuthenticated, isVerifiedAdmin,singleUpload, addLectureToFreeCourse).put(isAuthenticated, isVerifiedAdmin, singleUpload, editFreeCourse).delete(isAuthenticated, isVerifiedAdmin, deleteFreeCourse);
 
-router.route('/free-course/:id/:lectureid').put(isAuthenticated, isVerifiedAdmin,singleUpload, editSpecificCourseLecture).delete(isAuthenticated, isVerifiedAdmin, deleteLecture);
+router.route('/free-course/:id/:lectureid').get(getSpecificCourseLecture).put(isAuthenticated, isVerifiedAdmin,singleUpload, editSpecificCourseLecture).delete(isAuthenticated, isVerifiedAdmin, deleteLecture);
 
 export default router;
