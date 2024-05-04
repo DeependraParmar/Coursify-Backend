@@ -111,7 +111,7 @@ export const addLectureToFreeCourse = catchAsyncError( async(req, res, next) => 
     if(!course)
         return next(new ErrorHandler("Course not found", 404));
 
-    if(!title || !description || !url || !file)
+    if(!title || !description || !file)
         return next(new ErrorHandler("Please enter all the fields", 400));
 
     const fileUri = getDataUri(file);
