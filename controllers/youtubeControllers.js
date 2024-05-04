@@ -94,6 +94,11 @@ export const deleteFreeCourse = catchAsyncError( async(req, res, next) => {
         return next(new ErrorHandler("Course not found", 404));
 
     await cloudinary.v2.uploader.destroy(course.poster.public_id);
+
+    for(let i=0; i<course.lectures.length; i++){
+        await cloudinary.v2.uploader.destroy(course.lectures[i].thumbnail.public_id);
+    }
+
     await course.deleteOne();
 
     res.status(200).json({
@@ -165,7 +170,6 @@ export const editSpecificCourseLecture = catchAsyncError( async(req, res, next) 
 
     if(file){
         await cloudinary.v2.uploader.destroy(lecture.thumbnail.public_id);
-        console.log('Previous One Deleted');
         const fileUri = getDataUri(file);
         const cloud = await cloudinary.v2.uploader.upload(fileUri.content);
 
@@ -199,6 +203,11 @@ export const deleteLecture = catchAsyncError( async(req, res, next) => {
     if(!course)
         return next(new ErrorHandler("Course not found", 404));
 
+    // deleting the thumnail of the lecture
+    const lecture = course.lectures.filter(lecture => lecture._id.toString() === lectureid.toString());
+    await cloudinary.v2.uploader.destroy(lecture[0].thumbnail.public_id);
+
+    // updating the course by excluding that particular lecture.
     course.lectures = course.lectures.filter(lecture => lecture._id.toString() !== lectureid.toString());
 
     await course.save();
