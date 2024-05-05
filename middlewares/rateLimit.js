@@ -15,7 +15,7 @@ export const standardRateLimit = rateLimit({
 });
 
 export const strictRateLimit = rateLimit({
-    windowMs: 5 * 60 * 1000, // 15 minutes
+    windowMs: 5 * 60 * 1000, // 5 minutes
     max: 5,
     validate: {
         xForwardedForHeader: false,

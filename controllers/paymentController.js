@@ -58,10 +58,10 @@ export const paymentVerification = async (req, res, next) => {
         course.totalPurchases += 1;
         await user.save();
         await course.save();
-        return res.redirect(`${process.env.FRONTEND_URL}/paymentsuccess?reference=${razorpay_payment_id}`)
+        return res.redirect(`${process.env.FRONTEND_URL1}/paymentsuccess?reference=${razorpay_payment_id}`)
     }
     else{
-        return res.redirect(`${process.env.FRONTEND_URL}/paymentfailed?reference=${razorpay_payment_id}`)
+        return res.redirect(`${process.env.FRONTEND_URL1}/paymentfailed?reference=${razorpay_payment_id}`)
     }
 }
 
