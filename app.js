@@ -26,7 +26,16 @@ app.get("/reset", (req, res) => {
     res.render('resetPassword', { link: "https://coursify-frontend.vercel.app/" });
 });
 app.get("/ejs-receipt", (req,res) => {
-    res.render('receipt');
+    res.render('receipt', {
+        invoice_id : 1,
+        transaction_date: "12th May 2021",
+        username: "deependraparmar",
+        useremail: 'deependraparmar1@gmail.com',
+        userphone: '1234567890',
+        transaction_id: '1234567890',
+        price: 1000,
+        course: 'Full Stack Development',
+    });
 })
 app.get("/welcome", (req, res) => {
     res.render('welcome', { user: "Deependra Parmar"});
