@@ -20,8 +20,6 @@ const schema = new mongoose.Schema({
     },
     invoice_no: {
         type: String,
-        required: true,
-        unique: true,
         default: `INV-${Date.now()}-${Math.floor(Math.random() * 1000)}`
     },
     user: {
