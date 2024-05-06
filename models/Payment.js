@@ -22,7 +22,7 @@ const schema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        default: `INV-${Date.now()}`
+        default: `INV-${Date.now()}-${Math.floor(Math.random() * 1000)}`
     },
     user: {
         name: {
