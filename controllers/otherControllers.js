@@ -57,7 +57,29 @@ export const getPublicProfile = catchAsyncError( async(req,res,next) => {
         success: true,
         user,
     });
-})
+});
+
+export const inviteAFriend = catchAsyncError( async(req,res,next) => {
+    const { name, email, friend_name } = req.body;
+
+    if(!email || !name || !friend_name){
+        return next(new ErrorHandler("All fields are required", 400));
+    }
+
+    let mailOptions = {
+        to: email,
+        from: `Coursify🚀 ${process.env.MY_MAIL}`,
+        subject: "Invitation to Coursify 📞🤙",
+        text: `Hello ${name}, \n\n I would like to invite you to join Coursify. It's a great platform to learn and teach.\n Catch up here: https://coursify-frontend.vercel.app \n\n Regards, \n ${friend_name}`,
+    }
+
+    await sendEmail(mailOptions);
+
+    res.status(200).json({
+        success: true,
+        message: "Invitation sent successfully"
+    });
+});
 
 
 // controller for getting the stats for the instructor 

@@ -1,5 +1,5 @@
 import express from "express";
-import { contact, getAdminsForAdminDashboard, getInstructorForAdminDashboard, getInstructorStats, getPublicProfile, getSpecificCourseForAdminDashboard, getTransactionsForAdminDashboard, getUserForAdminDashboard } from "../controllers/otherControllers.js";
+import { contact, getAdminsForAdminDashboard, getInstructorForAdminDashboard, getInstructorStats, getPublicProfile, getSpecificCourseForAdminDashboard, getTransactionsForAdminDashboard, getUserForAdminDashboard, inviteAFriend } from "../controllers/otherControllers.js";
 import { isAuthenticated, isVerifiedAdmin, isVerifiedInstructor } from "../middlewares/auth.js";
 import { standardRateLimit, strictRateLimit } from "../middlewares/rateLimit.js";
 
@@ -7,6 +7,8 @@ const router = express.Router();
 
 // sending the message of the user to my mail
 router.post("/contact", strictRateLimit, contact);
+
+router.post('/invite', strictRateLimit, inviteAFriend);
 
 // getting the public profile of the user
 router.get("/profile/public/:id", standardRateLimit, getPublicProfile);
