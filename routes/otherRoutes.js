@@ -8,7 +8,7 @@ const router = express.Router();
 // sending the message of the user to my mail
 router.post("/contact", strictRateLimit, contact);
 
-router.post('/invite', strictRateLimit, inviteAFriend);
+router.post('/invite', strictRateLimit, isAuthenticated, inviteAFriend);
 
 // getting the public profile of the user
 router.get("/profile/public/:id", standardRateLimit, getPublicProfile);
