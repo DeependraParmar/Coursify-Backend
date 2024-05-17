@@ -389,7 +389,7 @@ export const forgetPassword = catchAsyncError(async (req, res, next) => {
 
     await user.save();
 
-    const url = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+    const url = `${process.env.FRONTEND_URL1}/resetpassword/${resetToken}`;
     
     const emailTemplatePath = path.join(process.cwd(), "views", "resetPassword.ejs");
     const emailTemplate = await ejs.renderFile(emailTemplatePath, {
