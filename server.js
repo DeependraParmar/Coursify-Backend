@@ -4,7 +4,6 @@ import cloudinary from "cloudinary";
 import Razorpay from "razorpay";
 import nodeCron from "node-cron";
 import { InstructorStats } from "./models/InstructorStats.js";
-import axios from "axios";
 
 // connecting to the database 
 connectDatabase();
@@ -14,6 +13,7 @@ cloudinary.v2.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
 
 export const instance = new Razorpay({
     key_id: process.env.RAZORPAY_API_KEY,

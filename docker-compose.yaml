@@ -1,0 +1,37 @@
+services:
+    backend:
+      build: .
+      environment:
+        - CLOUDFLARE_SECRET_KEY=0x4AAAAAAAXvbjQFHOKo4WFZzC3tNT400W4
+        - CLOUDINARY_API_KEY=347951381581118
+        - CLOUDINARY_API_SECRET=Yoht8i5ImXNVd4opx7P08c7m2Wc
+        - CLOUDINARY_CLOUD_NAME=dmmrtqe8q
+        - FRONTEND_URL1=https://coursify-frontend.vercel.app
+        - FRONTEND_URL2=https://learnlogics.vercel.app
+        - JWT_SECRET=euwpfdmcvbxhjeytrioewhnmghdlslpoewuyhrnsmcvnb
+        - MONGO_URI=mongodb://mongo:27017/coursify
+        - MY_MAIL=coursify05@gmail.com
+        - MY_PASSWORD=jzmjktsbwfcmicgs
+        - PORT=3000
+        - PRIMARY_FRONTEND_URL=http://localhost:5173
+        - RAZORPAY_API_KEY=rzp_test_WNNiPDdo77sBje
+        - RAZORPAY_API_SECRET=3igew3gvv6lStjMeDIxupXAR
+        - SERVER_URL=https://coursify-9oco.onrender.com/
+        - SESSION_DRIVER=cookie
+        - SESSION_SECRET=tuepdmvbshgjrywfabcmhjpryfnd
+      ports: 
+        - 3000:3000
+      depends_on: 
+        mongo:
+          condition: service_started
+          restart: true
+
+    mongo:
+      image: mongo:latest
+      ports:
+        - 27017:27017
+      volumes:
+        - db_volume:/data/db
+            
+volumes:
+  db_volume:
